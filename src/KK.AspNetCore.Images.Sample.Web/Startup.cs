@@ -50,7 +50,11 @@
             }
 
             app.UseHttpsRedirection();
-            app.UseImageProcessing();
+            app.UseImageProcessing(new ImageProcessingMiddlewareOptions()
+            {
+                SourceFolder = Configuration["ImageProcessing:SourceFolder"] ?? "Images",
+                TargetFolder = Configuration["ImageProcessing:TargetFolder"] ?? "images/generated"
+            });
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
