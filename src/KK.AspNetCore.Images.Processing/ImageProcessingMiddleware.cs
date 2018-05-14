@@ -3,8 +3,10 @@
     using System;
     using System.IO;
     using System.Threading.Tasks;
+    using ImageMagick;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
 
     public class ImageProcessingMiddleware
@@ -21,56 +23,91 @@
             ILogger<ImageProcessingMiddleware> logger
         )
         {
+            if (next == null)
+            {
+                throw new ArgumentNullException(nameof(next));
+            }
+            if (env == null)
+            {
+                throw new ArgumentNullException(nameof(env));
+            }
+
+            if (options == null)
+            {
+                throw new ArgumentNullException(nameof(options));
+            }
+
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
             this.next = next;
             this.options = options;
             this.env = env;
             this.logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+        /// <summary>
+        /// Processes a request to determine if it matches a known image, otherwise it will generate it.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public async Task Invoke(HttpContext context)
         {
             var path = context.Request.Path;
 
-            // hand to next middleware if we are not dealing with an image
-            if (!this.IsImagePath(path))
+            if (!Helpers.IsGetOrHeadMethod(context.Request.Method))
             {
-                await this.next(context);
-                return;
+                this.logger.LogRequestMethodNotSupported(context.Request.Method);
             }
-
-            // get the image location on disk
-            var imagePath = Path.Combine(
-                this.env.WebRootPath,
-                path.Value.Replace('/', Path.DirectorySeparatorChar).TrimStart(Path.DirectorySeparatorChar));
-
-
-            if(!File.Exists(imagePath))
+            else if (!Helpers.TryMatchPath(path, this.options.TargetFolder))
             {
-                this.logger.LogInformation($"Processing Image: {path.Value}");
-                var imageSourcePath = Path.Combine(
-                    this.env.ContentRootPath + Path.DirectorySeparatorChar + this.options.SourceFolder,
-                    path.Value.Replace("/" + this.options.TargetFolder, "").Replace('/', Path.DirectorySeparatorChar).TrimStart(Path.DirectorySeparatorChar));
+                this.logger.LogPathMismatch(path);
+            }
+            else
+            {
+                // get the image location on disk
+                var imagePath = Path.Combine(
+                    this.env.WebRootPath,
+                    path.Value
+                        .Replace('/', Path.DirectorySeparatorChar)
+                        .TrimStart(Path.DirectorySeparatorChar)
+                );
 
-                var targetDir = Path.Combine(this.env.WebRootPath, this.options.TargetFolder);
-                if(!Directory.Exists(targetDir))
+
+                if (!File.Exists(imagePath))
                 {
-                    Directory.CreateDirectory(targetDir);
-                }
+                    this.logger.LogProcessingImage(path.Value);
 
-                // TODO: Do some ImageMagick
-                File.Copy(imageSourcePath,imagePath);
+                    var imageSourcePath = Path.Combine(
+                        this.env.ContentRootPath + this.options.SourceFolder,
+                        path.Value
+                            .Replace(this.options.TargetFolder, "")
+                            .Replace('/', Path.DirectorySeparatorChar)
+                            .TrimStart(Path.DirectorySeparatorChar)
+                    );
+
+                    var targetDir = Path.Combine(
+                        this.env.WebRootPath,
+                        this.options.TargetFolder
+                            .Replace('/', Path.DirectorySeparatorChar)
+                            .TrimStart(Path.DirectorySeparatorChar)
+                    );
+
+                    if (!Directory.Exists(targetDir))
+                    {
+                        Directory.CreateDirectory(targetDir);
+                    }
+
+                    using (var image = new MagickImage(imageSourcePath))
+                    {
+                        image.Resize(300, 0);
+                        image.Write(imagePath);
+                    }
+                }
             }
             await this.next(context);
         }
-
-        private bool IsImagePath(PathString path)
-        {
-            if (path == null || !path.HasValue)
-            {
-                return false;
-            }
-            return path.Value.StartsWith($"/{this.options.TargetFolder}/");
-        }
-
     }
 }
