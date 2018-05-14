@@ -34,10 +34,16 @@
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Add options for ImageProcessing to the DI
+            services.AddImageProcessingSettings(this.Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment env
+            )
         {
             if (env.IsDevelopment())
             {
@@ -50,12 +56,19 @@
             }
 
             app.UseHttpsRedirection();
-            app.UseImageProcessing(new ImageProcessingMiddlewareOptions()
-            {
-                SourceFolder = Configuration["ImageProcessing:SourceFolder"] ?? "Images",
-                TargetFolder = Configuration["ImageProcessing:TargetFolder"] ?? "images/generated"
-            });
+            
+            app.UseImageProcessing();
+            
+            // Options can set also here directly
+            // app.UseImageProcessing(new ImageProcessingMiddlewareOptions()
+            // {
+            //     SourceFolder = Configuration["ImageProcessing:SourceFolder"] ?? "Images",
+            //     TargetFolder = Configuration["ImageProcessing:TargetFolder"] ?? "images/generated"
+            // });
+
+            // Static files should be handled after ImageProcessing so the generated files will be there already.
             app.UseStaticFiles();
+
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
