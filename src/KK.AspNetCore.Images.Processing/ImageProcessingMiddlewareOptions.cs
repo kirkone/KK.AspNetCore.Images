@@ -2,10 +2,20 @@
 namespace KK.AspNetCore.Images.Processing
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
 
     public class ImageProcessingMiddlewareOptions
     {
+        public class Size
+        {
+            public string Name { get; set; }
+            public int Width { get; set; } = 0;
+            public int Height { get; set; } = 0;
+        }
+
+        public List<Size> Sizes { get; set; } = new List<Size>();
+
         private string sourceFolder = System.IO.Path.DirectorySeparatorChar + "Images";
         public string SourceFolder
         {
@@ -21,7 +31,6 @@ namespace KK.AspNetCore.Images.Processing
                 this.targetFolder = newValue;
             }
         }
-
 
         private string targetFolder = "/images";
         public string TargetFolder

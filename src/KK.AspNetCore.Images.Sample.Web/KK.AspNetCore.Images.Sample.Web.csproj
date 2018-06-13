@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KK.AspNetCore.Images.Processing\KK.AspNetCore.Images.Processing.csproj" />
-  </ItemGroup>
+    <ProjectReference Include="..\KK.AspNetCore.Images.TagHelpers\KK.AspNetCore.Images.TagHelpers.csproj" />
+</ItemGroup>
 
 </Project>

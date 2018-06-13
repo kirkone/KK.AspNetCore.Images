@@ -75,24 +75,25 @@
                         .TrimStart(Path.DirectorySeparatorChar)
                 );
 
-
                 if (!File.Exists(imagePath))
                 {
                     this.logger.LogProcessingImage(path.Value);
 
+                    var extension  = Path.GetExtension(path.Value);
+                    var size = Path.GetFileNameWithoutExtension(path.Value);
+                    var filename = Directory.GetParent(path.Value).Name;;
+
                     var imageSourcePath = Path.Combine(
-                        this.env.ContentRootPath + this.options.SourceFolder,
-                        path.Value
-                            .Replace(this.options.TargetFolder, "")
-                            .Replace('/', Path.DirectorySeparatorChar)
-                            .TrimStart(Path.DirectorySeparatorChar)
+                        $"{this.env.ContentRootPath}{this.options.SourceFolder}",
+                        $"{filename}{extension}"
                     );
 
                     var targetDir = Path.Combine(
                         this.env.WebRootPath,
                         this.options.TargetFolder
                             .Replace('/', Path.DirectorySeparatorChar)
-                            .TrimStart(Path.DirectorySeparatorChar)
+                            .TrimStart(Path.DirectorySeparatorChar),
+                        filename
                     );
 
                     if (!Directory.Exists(targetDir))
@@ -100,9 +101,10 @@
                         Directory.CreateDirectory(targetDir);
                     }
 
+                    var sizeSetting = this.options.Sizes.Find(x => x.Name.ToLower() == size.ToLower());
                     using (var image = new MagickImage(imageSourcePath))
                     {
-                        image.Resize(300, 0);
+                        image.Resize(sizeSetting.Width, sizeSetting.Height);
                         image.Write(imagePath);
                     }
                 }
