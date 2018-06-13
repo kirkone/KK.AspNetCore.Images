@@ -5,10 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.4.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0-rc1-final" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.0-rc1-final" />
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.4.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.1.0" />
   </ItemGroup>
 
 </Project>
