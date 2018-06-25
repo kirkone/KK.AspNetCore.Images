@@ -24,15 +24,22 @@
 
         private const string SourceAttributeName = "src";
         private const string AltAttributeName = "alt";
+        private const string ClassAttributeName = "class";
         private const string StyleAttributeName = "style";
         private const string SettingAttributeName = "setting";
 
         [HtmlAttributeName(SourceAttributeName)]
         public string Src { get; set; }
+
         [HtmlAttributeName(AltAttributeName)]
         public string Alt { get; set; }
+
+        [HtmlAttributeName(ClassAttributeName)]
+        public string CssClass { get; set; }
+
         [HtmlAttributeName(StyleAttributeName)]
         public string Style { get; set; }
+
         [HtmlAttributeName(SettingAttributeName)]
         public string Setting { get; set; } = "default";
 
@@ -42,6 +49,7 @@
             var src = context.AllAttributes["src"].Value;
             var altText = context.AllAttributes["alt"]?.Value;
             var styleAttrib = !String.IsNullOrWhiteSpace(this.Style) ? $" style=\"{this.Style}\"" : "";
+            var classAttrib = !String.IsNullOrWhiteSpace(this.CssClass) ? $" class=\"{this.CssClass}\"" : "";
 
             foreach (var source in this.options.Settings.SingleOrDefault( s => s.Name == this.Setting)?.Sizes)
             {
@@ -53,11 +61,12 @@
                 }
                 content.AppendLine($"<source srcset=\"{sourceAttributeText}\"{mediaAttribute}>");
             }
-            content.AppendLine($"<img{styleAttrib} src=\"{src}\" alt=\"{altText}\">");
+            content.AppendLine($"<img{classAttrib}{styleAttrib} src=\"{src}\" alt=\"{altText}\">");
 
             output.TagName = "picture";
-            output.Attributes.RemoveAll("alt");
             output.Attributes.RemoveAll("src");
+            output.Attributes.RemoveAll("alt");
+            output.Attributes.RemoveAll("class");
             output.Attributes.RemoveAll("style");
             output.Attributes.RemoveAll("setting");
             output.Content.SetHtmlContent(content.ToString());

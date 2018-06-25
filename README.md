@@ -22,6 +22,11 @@ You must provide this attribute otherwise the TagHelper will not be used.
 Here you can provide a text for the `alt` attribute of the image tag inside the `picture` element.  
 This attribute is optional.
 
+#### class
+
+Here you can provide a text for the `class` attribute of the image tag inside the `picture` element.  
+This attribute is optional.
+
 #### style
 
 Here you can provide some additional style. This will be added to the image tag inside the `picture` element.  
@@ -33,17 +38,17 @@ This attribute is optional.
 The following TagHelper:
 
 ```
-<picture style="width: 100%;" src="DSC01766" alt="A simple text." />
+<picture class="awesome_image" style="width: 100%;" src="DSC01766" alt="A simple text." />
 ```
 
 will become:
 
 ```
 <picture>
-    <source media="(max-width: 450px)" srcset="/images/generated/DSC01766/small.jpg">
-    <source media="(max-width: 600px)" srcset="/images/generated/DSC01766/medium.jpg">
+    <source media="(max-width: 450px)" srcset="/images/generated/DSC01766/small.jpg, /images/generated/DSC01766/small2x.jpg 2x">
+    <source media="(max-width: 600px)" srcset="/images/generated/DSC01766/medium.jpg, /images/generated/DSC01766/medium2x.jpg 2x">
     <source srcset="/images/generated/DSC01766/large.jpg">
-    <img style="width: 100%;" alt="A simple text." src="DSC01766">
+    <img class="awesome_image" style="width: 100%;" alt="A simple text." src="DSC01766">
 </picture>
 ```
 
