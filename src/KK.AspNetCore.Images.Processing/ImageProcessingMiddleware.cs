@@ -98,6 +98,7 @@
 
                     if (!Directory.Exists(targetDir))
                     {
+                        this.logger.LogInformation($"Create Directory: \"{targetDir}\"");
                         Directory.CreateDirectory(targetDir);
                     }
 
@@ -109,6 +110,7 @@
                         image.Resize(sizeSetting.Width, sizeSetting.Height);
                         if (sizeSetting.Quality >= 0)
                         {
+                            this.logger.LogInformation($"Setting Quality to: \"{sizeSetting.Quality}\"");
                             image.Quality = sizeSetting.Quality;
                         }
 
@@ -117,8 +119,10 @@
                             var stream = new MemoryStream();
                             image.Write(stream);
                             stream.Position = 0;
+                            this.logger.LogInformation($"LosslessCompress before: {stream.Length / 1024} kb");
                             var imageOptimizer = new ImageOptimizer();
                             imageOptimizer.LosslessCompress(stream);
+                            this.logger.LogInformation($"LosslessCompress after: {stream.Length / 1024} kb");
                             using (
                                 FileStream file = new FileStream(
                                     imagePath,
