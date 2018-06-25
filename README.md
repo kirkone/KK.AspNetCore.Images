@@ -42,7 +42,7 @@ will become:
 <picture>
     <source media="(max-width: 450px)" srcset="/images/generated/DSC01766/small.jpg">
     <source media="(max-width: 600px)" srcset="/images/generated/DSC01766/medium.jpg">
-    <source media="" srcset="/images/generated/DSC01766/large.jpg">
+    <source srcset="/images/generated/DSC01766/large.jpg">
     <img style="width: 100%;" alt="A simple text." src="DSC01766">
 </picture>
 ```

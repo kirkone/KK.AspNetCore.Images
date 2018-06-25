@@ -41,13 +41,14 @@
             var content = new StringBuilder();
             var src = context.AllAttributes["src"].Value;
             var altText = context.AllAttributes["alt"]?.Value;
-            var styleAtrib = !String.IsNullOrWhiteSpace(this.Style) ? $" style=\"{this.Style}\"" : "";
+            var styleAttrib = !String.IsNullOrWhiteSpace(this.Style) ? $" style=\"{this.Style}\"" : "";
 
             foreach (var source in this.options.Settings.SingleOrDefault( s => s.Name == this.Setting)?.Sizes)
             {
-                content.AppendLine($"<source srcset=\"{this.options.ImageFolder}/{src}/{source.Name}.jpg\" media=\"{source.Media}\">");
+                var mediaAttrib = !String.IsNullOrWhiteSpace(source.Media) ? $" media=\"{source.Media}\"" : "";
+                content.AppendLine($"<source srcset=\"{this.options.ImageFolder}/{src}/{source.Name}.jpg\"{mediaAttrib}>");
             }
-            content.AppendLine($"<img{styleAtrib} src=\"{src}\" alt=\"{altText}\">");
+            content.AppendLine($"<img{styleAttrib} src=\"{src}\" alt=\"{altText}\">");
 
             output.TagName = "picture";
             output.Attributes.RemoveAll("alt");
