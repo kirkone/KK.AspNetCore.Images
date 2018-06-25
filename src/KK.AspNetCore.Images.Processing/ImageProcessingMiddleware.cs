@@ -105,6 +105,16 @@
                     var sizeSetting = this.options.Sizes.Find(
                         x => x.Name.ToLower() == size.ToLower()
                     );
+
+                    if (sizeSetting == null)
+                    {
+                        // Not supported size!
+                        // Hand over to the next middleware and return.
+                        this.logger.LogSizeNotSupported(size);
+                        await this.next(context);
+                        return;
+                    }
+
                     using (var image = new MagickImage(imageSourcePath))
                     {
                         image.Resize(sizeSetting.Width, sizeSetting.Height);
