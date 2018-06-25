@@ -12,6 +12,7 @@ namespace KK.AspNetCore.Images.Processing
             public string Name { get; set; }
             public int Width { get; set; } = 0;
             public int Height { get; set; } = 0;
+            public int Quality { get; set; } = 0;
         }
 
         public List<Size> Sizes { get; set; } = new List<Size>();
@@ -48,5 +49,6 @@ namespace KK.AspNetCore.Images.Processing
             }
         }
 
+        public bool LosslessCompress = true;
     }
 }

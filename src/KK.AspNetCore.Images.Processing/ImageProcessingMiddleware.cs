@@ -79,9 +79,9 @@
                 {
                     this.logger.LogProcessingImage(path.Value);
 
-                    var extension  = Path.GetExtension(path.Value);
+                    var extension = Path.GetExtension(path.Value);
                     var size = Path.GetFileNameWithoutExtension(path.Value);
-                    var filename = Directory.GetParent(path.Value).Name;;
+                    var filename = Directory.GetParent(path.Value).Name;
 
                     var imageSourcePath = Path.Combine(
                         $"{this.env.ContentRootPath}{this.options.SourceFolder}",
@@ -101,11 +101,40 @@
                         Directory.CreateDirectory(targetDir);
                     }
 
-                    var sizeSetting = this.options.Sizes.Find(x => x.Name.ToLower() == size.ToLower());
+                    var sizeSetting = this.options.Sizes.Find(
+                        x => x.Name.ToLower() == size.ToLower()
+                    );
                     using (var image = new MagickImage(imageSourcePath))
                     {
                         image.Resize(sizeSetting.Width, sizeSetting.Height);
-                        image.Write(imagePath);
+                        if (sizeSetting.Quality >= 0)
+                        {
+                            image.Quality = sizeSetting.Quality;
+                        }
+
+                        if (options.LosslessCompress)
+                        {
+                            var stream = new MemoryStream();
+                            image.Write(stream);
+                            stream.Position = 0;
+                            var imageOptimizer = new ImageOptimizer();
+                            imageOptimizer.LosslessCompress(stream);
+                            using (
+                                FileStream file = new FileStream(
+                                    imagePath,
+                                    FileMode.Create,
+                                    System.IO.FileAccess.Write
+                                )
+                            )
+                            {
+                                stream.WriteTo(file);
+                                file.Flush();
+                            }
+                        }
+                        else
+                        {
+                            image.Write(imagePath);
+                        }
                     }
                 }
             }
