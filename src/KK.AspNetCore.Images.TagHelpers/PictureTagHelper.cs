@@ -45,8 +45,13 @@
 
             foreach (var source in this.options.Settings.SingleOrDefault( s => s.Name == this.Setting)?.Sizes)
             {
-                var mediaAttrib = !String.IsNullOrWhiteSpace(source.Media) ? $" media=\"{source.Media}\"" : "";
-                content.AppendLine($"<source srcset=\"{this.options.ImageFolder}/{src}/{source.Name}.jpg\"{mediaAttrib}>");
+                var mediaAttribute = !String.IsNullOrWhiteSpace(source.Media) ? $" media=\"{source.Media}\"" : "";
+                var sourceAttributeText = $"{this.options.ImageFolder}/{src}/{source.Name}.jpg";
+                foreach (var zoom in source.Zoom.Where(x => x > 1).Distinct())
+                {
+                    sourceAttributeText += $", {this.options.ImageFolder}/{src}/{source.Name}{zoom}x.jpg {zoom}x";
+                }
+                content.AppendLine($"<source srcset=\"{sourceAttributeText}\"{mediaAttribute}>");
             }
             content.AppendLine($"<img{styleAttrib} src=\"{src}\" alt=\"{altText}\">");
 

@@ -49,6 +49,6 @@ namespace KK.AspNetCore.Images.Processing
             }
         }
 
-        public bool LosslessCompress = true;
+        public bool LosslessCompress = false;
     }
 }

@@ -13,6 +13,7 @@ namespace KK.AspNetCore.Images.TagHelpers
             {
                 public string Name { get; set; }
                 public string Media { get; set; }
+                public List<int> Zoom { get; set; } = new List<int>();
             }
 
             public string Name { get; set; }
@@ -38,6 +39,5 @@ namespace KK.AspNetCore.Images.TagHelpers
         }
 
         public List<Setting> Settings { get; set; } = new List<Setting>();
-
     }
 }
