@@ -9,10 +9,27 @@
                 "build",
                 "${workspaceFolder}/src/KK.AspNetCore.Images.Sample.Web/KK.AspNetCore.Images.Sample.Web.csproj"
             ],
-            "problemMatcher": "$msCompile","group": {
+            "problemMatcher": "$msCompile",
+            "group": {
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "-o",
+                ".\\Publish"
+            ],
+            "options": {
+                "env": {
+                    "ASPNETCORE_ENVIRONMENT": "Production"
+                },"cwd": "${workspaceFolder}/src/KK.AspNetCore.Images.Sample.Web"
+            },
+            "problemMatcher": []
         }
     ]
 }

@@ -1,74 +1,114 @@
 ﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - KK.AspNetCore.Images.Sample.Web</title>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewData["Title"]</title>
+        <environment names="Production">
+            <link rel="stylesheet" href="dist/style.css" />
+        </environment>
+    </head>
+    <body>
+        <ul id="marker">
+			<li style="background-color: #070308; height: 2.5641025641025643%"><a style="background-color: #B7AE94" href="#4df8636bf6"></a></li>
+		</ul>
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
-</head>
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">KK.AspNetCore.Images.Sample.Web</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+	<div id="sidebar">
+		<div class="foreground">
+			<div id="profile">
+				<a href="/"><i class="fas fa-camera-retro fa-2x"></i></a>
+			</div>
+			<h1><a href="/">photo.kirk.one</a></h1>
+            <ul id="nav">
+				<li class="gallery active" data-image="dsc03726"><a style="border-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" href="./2018"><span>2018</span></a></li><li class="gallery " data-image="dsc02031"><a style="color: rgb(122, 124, 137);" href="./2017"><span>2017</span></a></li>
+			</ul>		</div>
 
-    <partial name="_CookieConsentPartial" />
+		<ul id="control">
+			<li>
+				<a href="#" id="resbutton">
+					<i class="fas fa-desktop fa-fw"></i>
+					<span class="restext"></span>
+				</a>
+			</li>
+			<li style="display: {{text_toggle}}">
+				<a href="#" id="textbutton" class="active">
+					<i class="fas fa-eye-slash fa-fw"></i>
+					<span class="text">hide text</span>
+				</a>
+			</li>
+			<li style="display: {{social_button}}">
+				<a href="#" id="sharebutton">
+					<i class="fas fa-share-alt fa-fw"></i> share</a>
+			</li>
+			<li style="display: {{download_button}}">
+				<a href="#" id="download">
+					<i class="fas fa-download fa-fw"></i> download</a>
+			</li>
+		</ul>
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - KK.AspNetCore.Images.Sample.Web</p>
-        </footer>
-    </div>
+		<div class="background"></div>
+	</div>
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
+	<div id="resolution">
+	</div>
 
-    @RenderSection("Scripts", required: false)
-</body>
+	<div id="share">
+		<ul>
+			<li>
+				<a href="#" onclick="window.open('https://www.facebook.com/sharer.php?u=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
+					<i class="fab fa-facebook-square fa-fw"></i> Facebook
+				</a>
+			</li>
+
+			<li>
+				<a href="#" onclick="window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
+					<i class="fab fa-reddit-square fa-fw"></i> Reddit
+				</a>
+			</li>
+
+			<li>
+				<a href="#" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
+					<i class="fab fa-pinterest-square fa-fw"></i> Pinterest</a>
+			</li>
+
+			<li>
+				<a href="#" onclick="window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
+					<i class="fab fa-twitter-square fa-fw"></i> Twitter
+				</a>
+			</li>
+
+			<li>
+				<a href="#" id="copylink">
+					<i class="fas fa-link fa-fw"></i>
+					<span id="copylinktext">Copy Link</span>
+				</a>
+			</li>
+
+			<script type="text/javascript">
+				document.addEventListener('copy', function (e) {
+					e.clipboardData.setData('text/plain', window.location.origin + window.location.pathname + "#" + $(current_slide).data('imagemd5'));
+					e.preventDefault();
+				});
+				$(document).ready(function () {
+					$('#copylink').click(function () {
+						var oldtext = $('#copylinktext').text;
+						document.execCommand("copy", false, null);
+
+						$('#copylinktext').text("Done!");
+						setTimeout(function () {
+							$('#copylinktext').text("Copy Link");
+						}, 2000);
+
+						return false;
+					});
+				});
+			</script>
+		</ul>
+	</div>
+
+	<div id="main">
+		@RenderBody()
+	</div>
+        
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

@@ -287,3 +287,4 @@ __pycache__/
 *.xsd.cs
 
 **/wwwroot/images/generated/
+**/wwwroot/dist/

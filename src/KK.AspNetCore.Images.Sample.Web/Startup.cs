@@ -13,6 +13,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using KK.AspNetCore.Images.Processing;
     using KK.AspNetCore.Images.TagHelpers;
+    using Microsoft.AspNetCore.SpaServices.Webpack;
 
     public class Startup
     {
@@ -39,6 +40,8 @@
             // Add options for ImageProcessing to the DI
             services.AddImageProcessingSettings(this.Configuration);
             services.AddPictureTagSettings(this.Configuration);
+
+            services.AddNodeServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +53,12 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(
+                    new WebpackDevMiddlewareOptions()
+                    {
+                        HotModuleReplacement = true
+                    }
+                );
             }
             else
             {
@@ -58,9 +67,9 @@
             }
 
             app.UseHttpsRedirection();
-            
+
             app.UseImageProcessing();
-            
+
             // Options can set also here directly
             // app.UseImageProcessing(new ImageProcessingMiddlewareOptions()
             // {
