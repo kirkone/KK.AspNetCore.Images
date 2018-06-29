@@ -288,3 +288,4 @@ __pycache__/
 
 **/wwwroot/images/generated/
 **/wwwroot/dist/
+**/ClientApp/.cache/

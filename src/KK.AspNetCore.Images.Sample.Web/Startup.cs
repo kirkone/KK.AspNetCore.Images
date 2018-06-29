@@ -40,8 +40,6 @@
             // Add options for ImageProcessing to the DI
             services.AddImageProcessingSettings(this.Configuration);
             services.AddPictureTagSettings(this.Configuration);
-
-            services.AddNodeServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,20 +51,14 @@
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebpackDevMiddleware(
-                    new WebpackDevMiddlewareOptions()
-                    {
-                        HotModuleReplacement = true
-                    }
-                );
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
-            app.UseHttpsRedirection();
 
             app.UseImageProcessing();
 

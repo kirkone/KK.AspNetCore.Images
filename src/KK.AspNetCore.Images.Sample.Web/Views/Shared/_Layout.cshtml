@@ -3,9 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>@ViewData["Title"]</title>
-        <environment names="Production">
-            <link rel="stylesheet" href="dist/style.css" />
-        </environment>
+		<link rel="stylesheet" href="~/dist/app.css" />
     </head>
     <body>
         <ul id="marker">
@@ -82,26 +80,6 @@
 					<span id="copylinktext">Copy Link</span>
 				</a>
 			</li>
-
-			<script type="text/javascript">
-				document.addEventListener('copy', function (e) {
-					e.clipboardData.setData('text/plain', window.location.origin + window.location.pathname + "#" + $(current_slide).data('imagemd5'));
-					e.preventDefault();
-				});
-				$(document).ready(function () {
-					$('#copylink').click(function () {
-						var oldtext = $('#copylinktext').text;
-						document.execCommand("copy", false, null);
-
-						$('#copylinktext').text("Done!");
-						setTimeout(function () {
-							$('#copylinktext').text("Copy Link");
-						}, 2000);
-
-						return false;
-					});
-				});
-			</script>
 		</ul>
 	</div>
 

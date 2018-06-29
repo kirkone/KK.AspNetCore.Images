@@ -22,12 +22,25 @@
             "args": [
                 "publish",
                 "-o",
-                ".\\Publish"
+                ".\\Publish",
+                "-r",
+                "win-x64"
             ],
             "options": {
                 "env": {
                     "ASPNETCORE_ENVIRONMENT": "Production"
-                },"cwd": "${workspaceFolder}/src/KK.AspNetCore.Images.Sample.Web"
+                },
+                "cwd": "${workspaceFolder}/src/KK.AspNetCore.Images.Sample.Web"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "parcel watch",
+            "type": "npm",
+            "script": "parcel:watch",
+            "path": "src/KK.AspNetCore.Images.Sample.Web/ClientApp/",
+            "options": {
+                "cwd": "src/KK.AspNetCore.Images.Sample.Web/ClientApp/"
             },
             "problemMatcher": []
         }
