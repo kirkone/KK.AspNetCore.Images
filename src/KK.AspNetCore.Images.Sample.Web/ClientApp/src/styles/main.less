@@ -157,8 +157,23 @@ html,body{
     padding: 0 0 0 170px;
     min-width: 830px;
     min-height: 100%;
-    overflow: hidden;
     z-index: 1;
     position: relative;
-}
-    
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+
+    div {
+        position: sticky;
+        top:0;
+        margin: 0 0 10vh 0;
+        
+        &:last-of-type {
+		    margin-bottom: 0;
+	    }
+        
+        img {
+            height: 100vh;
+        }
+    }
+}   
