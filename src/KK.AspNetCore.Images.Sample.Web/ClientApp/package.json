@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "parcel:watch": "parcel watch app.ts --public-url /dist/ --out-dir ../wwwroot/dist --hmr-hostname localhost",
-    "parcel:build": "parcel build app.ts --out-dir ../wwwroot/dist --no-source-maps"
+    "parcel:watch": "parcel watch src/*.ts src/*.less --public-url /dist/ --out-dir ../wwwroot/dist --hmr-hostname localhost",
+    "parcel:build": "parcel build src/*.ts src/*.less --out-dir ../wwwroot/dist --no-source-maps"
   },
   "author": "Kirsten Kluge",
   "license": "MIT",
   "devDependencies": {
     "less": "^3.0.4",
-    "parcel-bundler": "^1.9.3",
+    "parcel-bundler": "^1.9.4",
     "typescript": "^2.9.2"
   },
   "dependencies": {}

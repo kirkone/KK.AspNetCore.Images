@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <title>@ViewData["Title"]</title>
-		<link rel="stylesheet" href="~/dist/app.css" />
+		<link rel="stylesheet" asp-href-include="~/dist/site*.css" />
     </head>
     <body>
         <ul id="marker">
@@ -87,6 +87,7 @@
 		@RenderBody()
 	</div>
         
+		<script type="text/javascript" asp-src-include="~/dist/site*.js"></script>
         @RenderSection("scripts", required: false)
     </body>
 </html>
