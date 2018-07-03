@@ -2,6 +2,7 @@
 namespace KK.AspNetCore.Images.TagHelpers
 {
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using System.IO;
 
@@ -18,8 +19,24 @@ namespace KK.AspNetCore.Images.TagHelpers
 
             public string Name { get; set; }
             public List<Size> Sizes { get; set; } = new List<Size>();
-            public int Width { get; set; } = 0;
-            public int Height { get; set; } = 0;
+
+            private string fallback = string.Empty;
+            public string Fallback
+            {
+                get
+                {
+                    if (string.IsNullOrWhiteSpace(fallback))
+                    {
+                        fallback = this.Sizes.First()?.Name;
+                    }
+
+                    return this.fallback;
+                }
+                set
+                {
+                    this.fallback = value;
+                }
+            }
         }
 
         private string imageFolder = "/images";

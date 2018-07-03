@@ -50,8 +50,9 @@
             var altText = context.AllAttributes["alt"]?.Value;
             var styleAttrib = !String.IsNullOrWhiteSpace(this.Style) ? $" style=\"{this.Style}\"" : "";
             var classAttrib = !String.IsNullOrWhiteSpace(this.CssClass) ? $" class=\"{this.CssClass}\"" : "";
+            var setting = this.options.Settings.SingleOrDefault( s => s.Name == this.Setting);
 
-            foreach (var source in this.options.Settings.SingleOrDefault( s => s.Name == this.Setting)?.Sizes)
+            foreach (var source in setting?.Sizes)
             {
                 var mediaAttribute = !String.IsNullOrWhiteSpace(source.Media) ? $" media=\"{source.Media}\"" : "";
                 var sourceAttributeText = $"{this.options.ImageFolder}/{src}/{source.Name}.jpg";
@@ -61,7 +62,7 @@
                 }
                 content.AppendLine($"<source srcset=\"{sourceAttributeText}\"{mediaAttribute}>");
             }
-            content.AppendLine($"<img{classAttrib}{styleAttrib} src=\"{src}\" alt=\"{altText}\">");
+            content.AppendLine($"<img{classAttrib}{styleAttrib} src=\"{this.options.ImageFolder}/{src}/{setting.Fallback}.jpg\" alt=\"{altText}\">");
 
             output.TagName = "picture";
             output.Attributes.RemoveAll("src");
