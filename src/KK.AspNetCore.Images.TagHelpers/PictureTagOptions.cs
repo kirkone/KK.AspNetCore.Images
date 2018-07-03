@@ -12,7 +12,8 @@ namespace KK.AspNetCore.Images.TagHelpers
         {
             public class Size
             {
-                public string Name { get; set; }
+                public string Name{ get; set; }
+                public int Width { get; set; }
                 public string Media { get; set; }
                 public List<int> Zoom { get; set; } = new List<int>();
             }
@@ -20,14 +21,14 @@ namespace KK.AspNetCore.Images.TagHelpers
             public string Name { get; set; }
             public List<Size> Sizes { get; set; } = new List<Size>();
 
-            private string fallback = string.Empty;
+            private string fallback;
             public string Fallback
             {
                 get
                 {
                     if (string.IsNullOrWhiteSpace(fallback))
                     {
-                        fallback = this.Sizes.First()?.Name;
+                        fallback = this.Sizes.First()?.Name ?? this.Sizes.First().Width.ToString();
                     }
 
                     return this.fallback;

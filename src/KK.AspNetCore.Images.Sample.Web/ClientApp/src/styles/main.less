@@ -1,15 +1,17 @@
 @import "variab.less";
 
-html,body{
+*{
     margin: 0;
     padding: 0;
     border: 0;
+}
+
+html,body{
     background-color: @backgroundcolor;
     color: @foregroundcolor;
     font: 300 14px/22px helvetica, arial, sans-serif;
     width: 100%;
     height: 100%;
-    padding: 0;
 }
 
 /* marker */
@@ -159,21 +161,12 @@ html,body{
     min-height: 100%;
     z-index: 1;
     position: relative;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
 
     div {
-        position: sticky;
-        top:0;
-        margin: 0 0 10vh 0;
-        
-        &:last-of-type {
-		    margin-bottom: 0;
-	    }
-        
         img {
-            height: 100vh;
+            width: 100%;
+            margin: 0 0 0 0;
+
         }
     }
 }   

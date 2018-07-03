@@ -46,23 +46,30 @@
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var content = new StringBuilder();
-            var src = context.AllAttributes["src"].Value;
-            var altText = context.AllAttributes["alt"]?.Value;
+            var src = context.AllAttributes["src"].Value.ToString();
+            var altText = context.AllAttributes["alt"]?.Value.ToString();
             var styleAttrib = !String.IsNullOrWhiteSpace(this.Style) ? $" style=\"{this.Style}\"" : "";
             var classAttrib = !String.IsNullOrWhiteSpace(this.CssClass) ? $" class=\"{this.CssClass}\"" : "";
-            var setting = this.options.Settings.SingleOrDefault( s => s.Name == this.Setting);
+            var setting = this.options.Settings.SingleOrDefault(s => s.Name == this.Setting);
 
-            foreach (var source in setting?.Sizes)
+            foreach (var size in setting?.Sizes)
             {
-                var mediaAttribute = !String.IsNullOrWhiteSpace(source.Media) ? $" media=\"{source.Media}\"" : "";
-                var sourceAttributeText = $"{this.options.ImageFolder}/{src}/{source.Name}.jpg";
-                foreach (var zoom in source.Zoom.Where(x => x > 1).Distinct())
-                {
-                    sourceAttributeText += $", {this.options.ImageFolder}/{src}/{source.Name}{zoom}x.jpg {zoom}x";
-                }
-                content.AppendLine($"<source srcset=\"{sourceAttributeText}\"{mediaAttribute}>");
+                var mediaAttribute = !String.IsNullOrWhiteSpace(size.Media) ? $" media=\"{size.Media}\"" : "";
+                content.AppendLine($"<source srcset=\"{GetSourceAttribute(src, size)}\"{mediaAttribute}>");
             }
-            content.AppendLine($"<img{classAttrib}{styleAttrib} src=\"{this.options.ImageFolder}/{src}/{setting.Fallback}.jpg\" alt=\"{altText}\">");
+
+            var fallbackSize = setting.Sizes.Single(
+                 s =>
+                 {
+                     return s.Name == setting.Fallback || ( string.IsNullOrWhiteSpace(s.Name) && s.Width.ToString() == setting.Fallback);
+                 });
+            var imgSrcSetAttribute = string.Empty;
+            if (fallbackSize?.Zoom.Count > 0)
+            {
+                imgSrcSetAttribute = $" srcset=\"{GetSourceAttribute(src, fallbackSize)}\"";
+            }
+
+            content.AppendLine($"<img{classAttrib}{styleAttrib} src=\"{this.options.ImageFolder}/{src}/{setting.Fallback}.jpg\"{imgSrcSetAttribute} alt=\"{altText}\">");
 
             output.TagName = "picture";
             output.Attributes.RemoveAll("src");
@@ -72,6 +79,19 @@
             output.Attributes.RemoveAll("setting");
             output.Content.SetHtmlContent(content.ToString());
             output.TagMode = TagMode.StartTagAndEndTag;
+        }
+
+        private string GetSourceAttribute(string src, PictureTagOptions.Setting.Size size)
+        {
+            var filename = !string.IsNullOrWhiteSpace(size.Name) ? size.Name : size.Width.ToString();
+            var sourceAttributeText = $"{this.options.ImageFolder}/{src}/{filename}.jpg";
+            foreach (var zoom in size.Zoom.Where(x => x > 1).Distinct())
+            {
+                var zoomfilename = !string.IsNullOrWhiteSpace(size.Name) ? $"{size.Name}{zoom}x" : (size.Width * zoom).ToString();
+                sourceAttributeText += $", {this.options.ImageFolder}/{src}/{zoomfilename}.jpg {zoom}x";
+            }
+
+            return sourceAttributeText;
         }
     }
 }

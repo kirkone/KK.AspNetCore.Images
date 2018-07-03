@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "parcel:serve": "parcel serve src/*.ts src/*.less --public-url /dist/ --out-dir ../wwwroot/dist --hmr-hostname localhost",
     "parcel:watch": "parcel watch src/*.ts src/*.less --public-url /dist/ --out-dir ../wwwroot/dist --hmr-hostname localhost",
     "parcel:build": "parcel build src/*.ts src/*.less --out-dir ../wwwroot/dist --no-source-maps"
   },

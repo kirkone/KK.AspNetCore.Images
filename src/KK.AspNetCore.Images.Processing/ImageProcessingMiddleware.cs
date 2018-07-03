@@ -2,6 +2,7 @@
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
     using ImageMagick;
     using Microsoft.AspNetCore.Hosting;
@@ -80,7 +81,7 @@
                     this.logger.LogProcessingImage(path.Value);
 
                     var extension = Path.GetExtension(path.Value);
-                    var size = Path.GetFileNameWithoutExtension(path.Value);
+                    var size = Path.GetFileNameWithoutExtension(path.Value).ToLower();
                     var filename = Directory.GetParent(path.Value).Name;
 
                     var imageSourcePath = Path.Combine(
@@ -102,8 +103,8 @@
                         Directory.CreateDirectory(targetDir);
                     }
 
-                    var sizeSetting = this.options.Sizes.Find(
-                        x => x.Name.ToLower() == size.ToLower()
+                    var sizeSetting = this.options.Sizes.FirstOrDefault(
+                        x => (x.Name ?? x.Width.ToString()).ToLower() == size
                     );
 
                     if (sizeSetting == null)
