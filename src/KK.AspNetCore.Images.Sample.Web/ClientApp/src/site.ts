@@ -1,3 +1,3 @@
-import { HelloWorld } from './scripts/helloworld';
+import { Main } from './scripts/main';
 
-new HelloWorld().doIt();
+new Main().CheckSnap();

@@ -1,94 +1,32 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <title>@ViewData["Title"]</title>
-		<link rel="stylesheet" asp-href-include="~/dist/site*.css" />
-    </head>
-    <body>
-        <ul id="marker">
-			<li style="background-color: #070308; height: 2.5641025641025643%"><a style="background-color: #B7AE94" href="#4df8636bf6"></a></li>
-		</ul>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>@ViewData["Title"]</title>
+	<link rel="stylesheet" asp-href-include="~/dist/site*.css" />
+</head>
+<body>
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger">
+        <i></i>
+        <i></i>
+        <i></i>
+    </label>
 
-	<div id="sidebar">
-		<div class="foreground">
-			<div id="profile">
-				<a href="/"><i class="fas fa-camera-retro fa-2x"></i></a>
-			</div>
-			<h1><a href="/">photo</a></h1>
-            <ul id="nav">
-				<li class="gallery active" data-image="dsc03726"><a style="border-color: rgb(255, 255, 255); color: rgb(255, 255, 255);" href="./2018"><span>2018</span></a></li><li class="gallery " data-image="dsc02031"><a style="color: rgb(122, 124, 137);" href="./2017"><span>2017</span></a></li>
-			</ul>
-		</div>
+    <aside id="nav">
+        <a href="./">photo.KirK.one</a>
+        <a href="http://">images</a>
+        <a href="http://">gear</a>
+        <a href="http://">about</a>
+    </aside>    
 
-		<ul id="control">
-			<li>
-				<a href="#" id="resbutton">
-					<i class="fas fa-desktop fa-fw"></i>
-					<span class="restext"></span>
-				</a>
-			</li>
-			<li style="display: {{text_toggle}}">
-				<a href="#" id="textbutton" class="active">
-					<i class="fas fa-eye-slash fa-fw"></i>
-					<span class="text">hide text</span>
-				</a>
-			</li>
-			<li style="display: {{social_button}}">
-				<a href="#" id="sharebutton">
-					<i class="fas fa-share-alt fa-fw"></i> share</a>
-			</li>
-			<li style="display: {{download_button}}">
-				<a href="#" id="download">
-					<i class="fas fa-download fa-fw"></i> download</a>
-			</li>
-		</ul>
-
-		<div class="background"></div>
-	</div>
-
-	<div id="resolution">
-	</div>
-
-	<div id="share">
-		<ul>
-			<li>
-				<a href="#" onclick="window.open('https://www.facebook.com/sharer.php?u=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
-					<i class="fab fa-facebook-square fa-fw"></i> Facebook
-				</a>
-			</li>
-
-			<li>
-				<a href="#" onclick="window.open('https://www.reddit.com/submit?url=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
-					<i class="fab fa-reddit-square fa-fw"></i> Reddit
-				</a>
-			</li>
-
-			<li>
-				<a href="#" onclick="window.open('http://pinterest.com/pin/create/button/?url=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
-					<i class="fab fa-pinterest-square fa-fw"></i> Pinterest</a>
-			</li>
-
-			<li>
-				<a href="#" onclick="window.open('https://twitter.com/intent/tweet?url=' + encodeURIComponent(window.location.origin+window.location.pathname+'#'+$(current_slide).data('imagemd5'))); return false">
-					<i class="fab fa-twitter-square fa-fw"></i> Twitter
-				</a>
-			</li>
-
-			<li>
-				<a href="#" id="copylink">
-					<i class="fas fa-link fa-fw"></i>
-					<span id="copylinktext">Copy Link</span>
-				</a>
-			</li>
-		</ul>
-	</div>
-
-	<div id="main">
+    <section id="content">
 		@RenderBody()
-	</div>
-        
-		<script type="text/javascript" asp-src-include="~/dist/site*.js"></script>
-        @RenderSection("scripts", required: false)
-    </body>
+   </section>
+
+	<script type="text/javascript" asp-src-include="~/dist/site*.js"></script>
+	@RenderSection("scripts", required: false)
+</body>
 </html>
