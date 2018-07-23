@@ -126,30 +126,39 @@
                             image.Quality = sizeSetting.Quality;
                         }
 
-                        var stream = new MemoryStream();
-                        image.Write(stream);
-                        stream.Position = 0;
-                        this.logger.LogInformation($"LosslessCompress before: {stream.Length / 1024} kb");
-                        var imageOptimizer = new ImageOptimizer();
-                        if (options.LosslessCompress)
+                        if (sizeSetting.Progressive)
                         {
-                            imageOptimizer.LosslessCompress(stream);
+                            image.Format = MagickFormat.Pjpeg;
                         }
-                        else
+
+                        using (var stream = new MemoryStream())
                         {
-                            imageOptimizer.Compress(stream);
-                        }
-                        this.logger.LogInformation($"LosslessCompress after: {stream.Length / 1024} kb");
-                        using (
-                            FileStream file = new FileStream(
-                                imagePath,
-                                FileMode.Create,
-                                System.IO.FileAccess.Write
+                            image.Write(stream);
+                            stream.Position = 0;
+
+                            this.logger.LogInformation($"LosslessCompress before: {stream.Length / 1024} kb");
+                            var imageOptimizer = new ImageOptimizer();
+                            if (options.LosslessCompress)
+                            {
+                                imageOptimizer.LosslessCompress(stream);
+                            }
+                            else
+                            {
+                                imageOptimizer.Compress(stream);
+                            }
+                            this.logger.LogInformation($"LosslessCompress after: {stream.Length / 1024} kb");
+
+                            using (
+                                FileStream file = new FileStream(
+                                    imagePath,
+                                    FileMode.Create,
+                                    System.IO.FileAccess.Write
+                                )
                             )
-                        )
-                        {
-                            stream.WriteTo(file);
-                            file.Flush();
+                            {
+                                stream.WriteTo(file);
+                                file.Flush();
+                            }
                         }
                     }
                 }

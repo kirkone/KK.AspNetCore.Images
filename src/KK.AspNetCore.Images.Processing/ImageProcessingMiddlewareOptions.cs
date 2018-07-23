@@ -13,6 +13,7 @@ namespace KK.AspNetCore.Images.Processing
             public int Width { get; set; } = 0;
             public int Height { get; set; } = 0;
             public int Quality { get; set; } = 0;
+            public bool Progressive { get; set; } = true;
         }
 
         public List<Size> Sizes { get; set; } = new List<Size>();
