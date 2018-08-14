@@ -2,18 +2,28 @@
     ViewData["Title"] = "Home Page";
 }
 
-<article>
-    <picture class="awesome_image" src="DSC01766" alt="A simple text." />
-</article>
-<article>
-    <picture class="awesome_image" src="DSC03142" alt="A simple text." />
-</article>
-<article>
-    <picture class="awesome_image" src="DSC03448" alt="A simple text." />
-</article>
-<article>
-    <picture class="awesome_image" src="DSC03726" alt="A simple text." />
-</article>
+@section navigation {
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+            <i></i>
+            <i></i>
+            <i></i>
+        </label>
+
+        <aside id="nav">
+            <a href="./">photo.KirK.one</a>
+            <a href="http://">images</a>
+            <a href="http://">gear</a>
+            <a href="http://">about</a>
+        </aside>
+}
+
+@foreach (var image in ViewBag.Images)
+{
+    <article>
+        <a id="@image.Name" asp-route="ImageDetails" asp-route-image="@image.Name"><picture class="awesome_image" src="@image.Name" alt="@image.PhysicalPath" /></a>
+    </article>
+}
 
 @section scripts {
     

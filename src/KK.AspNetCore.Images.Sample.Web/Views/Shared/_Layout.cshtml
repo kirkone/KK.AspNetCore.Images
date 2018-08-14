@@ -8,19 +8,7 @@
 	<link rel="stylesheet" asp-href-include="~/dist/site*.css" />
 </head>
 <body>
-    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-    <label for="nav-trigger">
-        <i></i>
-        <i></i>
-        <i></i>
-    </label>
-
-    <aside id="nav">
-        <a href="./">photo.KirK.one</a>
-        <a href="http://">images</a>
-        <a href="http://">gear</a>
-        <a href="http://">about</a>
-    </aside>    
+    @RenderSection("navigation", required: true)
 
     <section id="content">
 		@RenderBody()

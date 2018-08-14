@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section navigation {
+    <a asp-controller="Home" asp-action="index" asp-fragment="@ViewBag.Image">
+        <i></i>
+        <i></i>
+        <i></i>
+        <span>Back to Gallery</span>
+    </a>
+}
+
+<article>
+    <picture class="awesome_image" src="@ViewBag.Image" alt="A simple text." />
+</article>
+<article>
+    <div>
+        <h1>
+            Blume.Knospe
+        </h1>
+        <p>
+            Ich bin eine Beschreibung.
+        </p>
+        <h2>
+            Meta
+        </h2>
+        <table>
+            <tr>
+                <td>Camera</td>
+                <td>Sony Alpha 7 II</td>
+            </tr>
+            <tr>
+                <td>Aperture</td>
+                <td>F:8/1</td>
+            </tr>
+            <tr>
+                <td>Shutter</td>
+                <td>1/50</td>
+            </tr>
+            <tr>
+                <td>Focus</td>
+                <td>63mm</td>
+            </tr>
+            <tr>
+                <td>ISO</td>
+                <td>100</td>
+            </tr>
+        </table>
+    </div>
+</article>
+
+@section scripts {
+    
+}

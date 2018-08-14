@@ -14,18 +14,25 @@
     using KK.AspNetCore.Images.Processing;
     using KK.AspNetCore.Images.TagHelpers;
     using Microsoft.AspNetCore.SpaServices.Webpack;
+    using Microsoft.Extensions.FileProviders;
+    using System.IO;
+    using KK.AspNetCore.Images.Sample.Web.Services;
 
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(
+            IConfiguration configuration
+        )
         {
-            Configuration = configuration;
+            this.configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(
+            IServiceCollection services
+        )
         {
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -38,8 +45,10 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Add options for ImageProcessing to the DI
-            services.AddImageProcessingSettings(this.Configuration);
-            services.AddPictureTagSettings(this.Configuration);
+            services.AddImageProcessingSettings(this.configuration);
+            services.AddPictureTagSettings(this.configuration);
+
+            services.AddSingleton<IImagesService, ImagesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,17 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using KK.AspNetCore.Images.Sample.Web.Models;
-
-namespace KK.AspNetCore.Images.Sample.Web.Controllers
+﻿namespace KK.AspNetCore.Images.Sample.Web.Controllers
 {
+    using System.Diagnostics;
+    using Microsoft.AspNetCore.Mvc;
+    using KK.AspNetCore.Images.Sample.Web.Models;
+    using KK.AspNetCore.Images.Sample.Web.Services;
+
     public class HomeController : Controller
     {
+        private readonly IImagesService imagesService;
+        public HomeController(IImagesService imagesService)
+        {
+            this.imagesService = imagesService;
+        }
         public IActionResult Index()
         {
+            ViewBag.Images = this.imagesService.Images;
+            return View();
+        }
+
+        [Route("/Details/{image}", Name = "ImageDetails")]
+        public IActionResult Details(string image)
+        {
+            ViewBag.Image = image;
             return View();
         }
 
