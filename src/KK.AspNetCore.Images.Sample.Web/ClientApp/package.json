@@ -11,9 +11,9 @@
   "author": "Kirsten Kluge",
   "license": "MIT",
   "devDependencies": {
-    "less": "^3.8.0",
+    "less": "^3.8.1",
     "parcel-bundler": "^1.9.7",
-    "typescript": "^2.9.2"
+    "typescript": "^3.0.1"
   },
   "dependencies": {}
 }
