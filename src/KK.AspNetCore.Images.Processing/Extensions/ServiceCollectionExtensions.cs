@@ -4,7 +4,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
 
-    public static class ImageProcessingMiddlewareOptionExtensions
+    public static class ServiceCollectionExtensions
     {
         /// <summary>
         /// Add the settings from "ImageProcessing" of the appsettings as a Singleton of ImageProcessingMiddlewareOptions
@@ -18,8 +18,8 @@
         )
         {
             var section = configuration.GetSection("ImageProcessing");
-            var settings = new ImageProcessingMiddlewareOptions();
-            new ConfigureFromConfigurationOptions<ImageProcessingMiddlewareOptions>(section)
+            var settings = new ImageProcessingOptions();
+            new ConfigureFromConfigurationOptions<ImageProcessingOptions>(section)
                 .Configure(settings);
             services.AddSingleton(settings);
 
@@ -34,7 +34,7 @@
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddImageProcessingSettings(
             this IServiceCollection services,
-            ImageProcessingMiddlewareOptions settings
+            ImageProcessingOptions settings
         )
         {
             services.AddSingleton(settings);

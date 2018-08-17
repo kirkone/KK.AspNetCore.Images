@@ -5,7 +5,7 @@ namespace KK.AspNetCore.Images.Processing
     using System.Collections.Generic;
     using System.IO;
 
-    public class ImageProcessingMiddlewareOptions
+    public class ImageProcessingOptions
     {
         public class Size
         {
@@ -24,8 +24,20 @@ namespace KK.AspNetCore.Images.Processing
             get { return this.sourceFolder; }
             set
             {
-                var newValue = value.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
-                if (!value.StartsWith(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                var newValue = value.Replace(
+                        '\\',
+                        Path.DirectorySeparatorChar
+                    ).Replace(
+                        '/',
+                        Path.DirectorySeparatorChar
+                    );
+
+                if (
+                    !value.StartsWith(
+                        Path.DirectorySeparatorChar.ToString(),
+                        StringComparison.Ordinal
+                    )
+                )
                 {
                     newValue = $"{Path.DirectorySeparatorChar}{newValue}";
                 }

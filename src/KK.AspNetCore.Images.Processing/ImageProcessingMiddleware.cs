@@ -7,19 +7,20 @@
     using ImageMagick;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Logging;
+    using Helpers;
+    using Extensions;
 
     public class ImageProcessingMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly ImageProcessingMiddlewareOptions options;
+        private readonly ImageProcessingOptions options;
         private readonly ILogger<ImageProcessingMiddleware> logger;
         private readonly IHostingEnvironment env;
 
         public ImageProcessingMiddleware(
             RequestDelegate next,
-            ImageProcessingMiddlewareOptions options,
+            ImageProcessingOptions options,
             IHostingEnvironment env,
             ILogger<ImageProcessingMiddleware> logger
         )
@@ -58,11 +59,11 @@
         {
             var path = context.Request.Path;
 
-            if (!Helpers.IsGetOrHeadMethod(context.Request.Method))
+            if (!GenericHelpers.IsGetOrHeadMethod(context.Request.Method))
             {
                 this.logger.LogRequestMethodNotSupported(context.Request.Method);
             }
-            else if (!Helpers.TryMatchPath(path, this.options.TargetFolder))
+            else if (!GenericHelpers.TryMatchPath(path, this.options.TargetFolder))
             {
                 this.logger.LogPathMismatch(path);
             }

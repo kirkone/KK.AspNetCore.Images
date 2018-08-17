@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Builder;
 
-    public static class ImageProcessingMiddlewareExtensions
+    public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder UseImageProcessing(this IApplicationBuilder builder)
         {
@@ -11,7 +11,7 @@
 
         public static IApplicationBuilder UseImageProcessing(
             this IApplicationBuilder builder,
-            ImageProcessingMiddlewareOptions options
+            ImageProcessingOptions options
         )
         {
             return builder.UseMiddleware<ImageProcessingMiddleware>(options);

@@ -1,4 +1,4 @@
-namespace KK.AspNetCore.Images.Processing
+namespace KK.AspNetCore.Images.Processing.Extensions
 {
     using System;
     using Microsoft.Extensions.Logging;

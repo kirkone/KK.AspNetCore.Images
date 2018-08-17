@@ -1,11 +1,11 @@
-namespace KK.AspNetCore.Images.Processing
+﻿namespace KK.AspNetCore.Images.Processing.Helpers
 {
     using System;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.FileProviders;
 
-    internal static class Helpers
+    internal static class GenericHelpers
     {
         internal static bool IsGetOrHeadMethod(string method)
         {
