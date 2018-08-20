@@ -4,6 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <Authors>Kirsten Kluge</Authors>
+    <PackageProjectUrl>https://github.com/kirkone/KK.AspNetCore.Images</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/kirkone/KK.AspNetCore.Images</RepositoryUrl>
+    <Description>This project contains some helpers to make image processing and handling in asp.net core websites easier.</Description>
+    <Copyright>MIT</Copyright>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <VersionSuffix>alpha-0000001</VersionSuffix>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="7.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.1.1" />

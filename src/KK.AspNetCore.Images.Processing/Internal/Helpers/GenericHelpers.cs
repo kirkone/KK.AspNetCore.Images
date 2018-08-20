@@ -1,4 +1,4 @@
-﻿namespace KK.AspNetCore.Images.Processing.Helpers
+﻿namespace KK.AspNetCore.Images.Processing.Internal.Helpers
 {
     using System;
     using Microsoft.AspNetCore.Hosting;

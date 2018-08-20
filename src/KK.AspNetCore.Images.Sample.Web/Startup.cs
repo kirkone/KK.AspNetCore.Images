@@ -45,7 +45,18 @@
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Add options for ImageProcessing to the DI
+            // user either custom settings:
+            // services.AddImageProcessing(options => 
+            //     {
+            //         options.SourceFolder = configuration["ImageProcessing:SourceFolder"] ?? "Images";
+            //         options.TargetFolder = configuration["ImageProcessing:TargetFolder"] ?? "images/generated";
+            //     }
+            // );
+            // or load settings from config provider: 
+            // services.AddImageProcessingSettings(this.configuration);
+
             services.AddImageProcessingSettings(this.configuration);
+
             services.AddPictureTagSettings(this.configuration);
 
             services.AddSingleton<IImagesService, ImagesService>();
@@ -70,13 +81,6 @@
 
 
             app.UseImageProcessing();
-
-            // Options can set also here directly
-            // app.UseImageProcessing(new ImageProcessingMiddlewareOptions()
-            // {
-            //     SourceFolder = Configuration["ImageProcessing:SourceFolder"] ?? "Images",
-            //     TargetFolder = Configuration["ImageProcessing:TargetFolder"] ?? "images/generated"
-            // });
 
             // Static files should be handled after ImageProcessing so the generated files will be there already.
             app.UseStaticFiles();

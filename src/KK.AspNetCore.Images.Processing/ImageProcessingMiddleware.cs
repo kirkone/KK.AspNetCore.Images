@@ -8,8 +8,8 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
-    using Helpers;
-    using Extensions;
+    using KK.AspNetCore.Images.Processing.Internal.Helpers;
+    using KK.AspNetCore.Images.Processing.Internal.Extensions;
 
     public class ImageProcessingMiddleware
     {
