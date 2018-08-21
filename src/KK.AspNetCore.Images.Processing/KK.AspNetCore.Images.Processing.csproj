@@ -10,7 +10,6 @@
     <RepositoryUrl>https://github.com/kirkone/KK.AspNetCore.Images</RepositoryUrl>
     <Description>This project contains some helpers to make image processing and handling in asp.net core websites easier.</Description>
     <Copyright>MIT</Copyright>
-    <VersionPrefix>0.0.2</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
