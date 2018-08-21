@@ -46,16 +46,25 @@ namespace KK.AspNetCore.Images.Processing
             }
         }
 
-        private string targetFolder = "/images";
+        private string targetFolder = "/images/generated";
         public string TargetFolder
         {
             get { return this.targetFolder; }
             set
             {
                 var newValue = value.Replace('\\', '/');
+
                 if (!value.StartsWith("/", StringComparison.Ordinal))
                 {
                     newValue = $"/{newValue}";
+                }
+                if (newValue == "/")
+                {
+                    throw new ArgumentOutOfRangeException(
+                        nameof(this.TargetFolder),
+                        value,
+                        "Root not allowed. You must set a valid folder."
+                    );
                 }
 
                 this.targetFolder = newValue;

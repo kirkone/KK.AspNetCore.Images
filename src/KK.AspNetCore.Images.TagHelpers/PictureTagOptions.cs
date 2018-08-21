@@ -12,7 +12,7 @@ namespace KK.AspNetCore.Images.TagHelpers
         {
             public class Size
             {
-                public string Name{ get; set; }
+                public string Name { get; set; }
                 public int Width { get; set; }
                 public string Media { get; set; }
                 public List<int> Zoom { get; set; } = new List<int>();
@@ -40,7 +40,7 @@ namespace KK.AspNetCore.Images.TagHelpers
             }
         }
 
-        private string imageFolder = "/images";
+        private string imageFolder = "/images/generated";
         public string ImageFolder
         {
             get { return this.imageFolder; }
@@ -51,6 +51,15 @@ namespace KK.AspNetCore.Images.TagHelpers
                 {
                     newValue = $"/{newValue}";
                 }
+                if (newValue == "/")
+                {
+                    throw new ArgumentOutOfRangeException(
+                        nameof(this.ImageFolder),
+                        value,
+                        "Root not allowed. You must set a valid folder."
+                    );
+                }
+
 
                 this.imageFolder = newValue;
             }
