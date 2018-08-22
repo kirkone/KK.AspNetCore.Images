@@ -6,6 +6,19 @@ This project contains some helpers to make image processing and handling in asp.
 
 > **Caution**: This is not finished jet!
 
+This is a nuget package containing the middleware for resizing images on request.
+
+### Build
+
+The build environment for this project is on Visual Studio Team Services and can be found here [kirkone.visualstudio.com](https://kirkone.visualstudio.com/KK.AspNetCore.Images/_releases2?definitionId=2&view=mine&_a=releases)
+
+| Name | Status |
+| --- | --- |
+| KK.AspNetCore.Images-CI | [![Build Status](https://kirkone.visualstudio.com/KK.AspNetCore.Images/_apis/build/status/KK.AspNetCore.Images-CI)](https://kirkone.visualstudio.com/KK.AspNetCore.Images/_build/latest?definitionId=22) |
+| Alpha | [![Alpha](https://kirkone.vsrm.visualstudio.com/_apis/public/Release/badge/5ffc2eec-6944-4a03-a8b9-4f73af2f2237/2/4)](https://kirkone.visualstudio.com/KK.AspNetCore.Images/_release?definitionId=2&_a=releases) |
+| Beta | [![Beta](https://kirkone.vsrm.visualstudio.com/_apis/public/Release/badge/5ffc2eec-6944-4a03-a8b9-4f73af2f2237/2/5)](https://kirkone.visualstudio.com/KK.AspNetCore.Images/_release?definitionId=2&_a=releases) |
+| Release | [![Release](https://kirkone.vsrm.visualstudio.com/_apis/public/Release/badge/5ffc2eec-6944-4a03-a8b9-4f73af2f2237/2/6)](https://kirkone.visualstudio.com/KK.AspNetCore.Images/_release?definitionId=2&_a=releases) |
+
 ## KK.AspNetCore.Images.TagHelpers
 
 The `picture` ThagHelper will take the settings from the `appsettings.json` and adds a `source` for every configured size.
