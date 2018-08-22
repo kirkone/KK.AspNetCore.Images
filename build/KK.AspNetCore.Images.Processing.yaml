@@ -1,0 +1,51 @@
+resources:
+- repo: self
+  clean: true
+
+queue:
+  name: Hosted
+
+name: $(Year:yy)$(DayOfYear)$(Rev:rr)
+
+steps:
+- powershell: . 'tools/GitVersion/Run-GitVersion.ps1' 
+  displayName: Run GitVersion
+  workingDirectory: 'src/KK.AspNetCore.Images.Processing'
+
+- task: DotNetCoreInstaller@0
+  displayName: Use .NET Core sdk 2.1.400
+  inputs:
+    version: 2.1.400
+
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+    arguments: '--configuration release'
+
+- task: DotNetCoreCLI@2
+  displayName: Pack Internal
+  inputs:
+    command: pack
+    packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+    nobuild: true
+    buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix=pre-$(Build.BuildNumber)'
+
+- task: DotNetCoreCLI@2
+  displayName: Pack Release
+  inputs:
+    command: pack
+    packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+    nobuild: true
+    buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix='
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish Artifact
+  inputs:
+    ArtifactName: NuGet
