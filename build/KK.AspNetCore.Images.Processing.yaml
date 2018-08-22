@@ -13,8 +13,8 @@ steps:
   inputs:
     scriptType: filePath
     scriptName: "tools/GitVersion/Run-GitVersion.ps1"
-    arguments: ''
-    workingDirectory: 'src/KK.AspNetCore.Images.Processing'
+    arguments: ""
+    workingDirectory: "src/KK.AspNetCore.Images.Processing"
 
 - task: DotNetCoreInstaller@0
   displayName: Use .NET Core sdk 2.1.400
@@ -25,29 +25,29 @@ steps:
   displayName: Restore
   inputs:
     command: restore
-    projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+    projects: "src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj"
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
-    projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
-    arguments: '--configuration release'
+    projects: "src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj"
+    arguments: "--configuration release"
 
 - task: DotNetCoreCLI@2
   displayName: Pack Internal
   inputs:
     command: pack
-    packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+    packagesToPack: "src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj"
     nobuild: true
-    buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix=pre-$(Build.BuildNumber)'
+    buildProperties: "VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix=pre-$(Build.BuildNumber)"
 
 - task: DotNetCoreCLI@2
   displayName: Pack Release
   inputs:
     command: pack
-    packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
+    packagesToPack: "src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj"
     nobuild: true
-    buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix='
+    buildProperties: "VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix="
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
