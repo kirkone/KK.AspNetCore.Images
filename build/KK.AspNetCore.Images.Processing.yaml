@@ -1,9 +1,10 @@
-resources:
-- repo: self
-  clean: true
+# https://docs.microsoft.com/en-us/vsts/pipelines/yaml-schema?view=vsts
 
 queue:
   name: Hosted
+
+variables:
+  buildConfiguration: 'Release'
 
 name: $(Year:yy)$(DayOfYear)$(Rev:rr)
 
@@ -18,37 +19,43 @@ steps:
 - task: DotNetCoreInstaller@0
   displayName: Use .NET Core sdk 2.1.400
   inputs:
+    packageType: 'sdk'
     version: 2.1.400
 
 - task: DotNetCoreCLI@2
   displayName: Restore
   inputs:
-    command: restore
+    command: 'restore'
     projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
 
 - task: DotNetCoreCLI@2
   displayName: Build
   inputs:
+    command: 'build'
     projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
-    arguments: '--configuration release'
+    configuration: '$(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Pack Internal
   inputs:
-    command: pack
+    command: 'pack'
     packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
     nobuild: true
+    configuration: '$(buildConfiguration)'
     buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix=pre-$(Build.BuildNumber)'
 
 - task: DotNetCoreCLI@2
   displayName: Pack Release
   inputs:
-    command: pack
+    command: 'pack'
     packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
     nobuild: true
+    configuration: '$(buildConfiguration)'
     buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix='
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
   inputs:
-    ArtifactName: NuGet
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: NuGet
+    parallel: true
