@@ -8,9 +8,13 @@ queue:
 name: $(Year:yy)$(DayOfYear)$(Rev:rr)
 
 steps:
-- powershell: . 'tools/GitVersion/Run-GitVersion.ps1' 
+- task: PowerShell@2
   displayName: Run GitVersion
-  workingDirectory: 'src/KK.AspNetCore.Images.Processing'
+  inputs:
+    scriptType: filePath
+    scriptName: "tools/GitVersion/Run-GitVersion.ps1"
+    arguments: ''
+    workingDirectory: 'src/KK.AspNetCore.Images.Processing'
 
 - task: DotNetCoreInstaller@0
   displayName: Use .NET Core sdk 2.1.400
