@@ -11,8 +11,8 @@ steps:
 - task: PowerShell@2
   displayName: Run GitVersion
   inputs:
-    scriptType: filePath
-    scriptName: "tools/GitVersion/Run-GitVersion.ps1"
+    targetType: filePath
+    filePath: "tools/GitVersion/Run-GitVersion.ps1"
     arguments: ""
     workingDirectory: "src/KK.AspNetCore.Images.Processing"
 
