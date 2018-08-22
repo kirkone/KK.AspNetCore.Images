@@ -4,7 +4,7 @@ queue:
   name: Hosted
 
 variables:
-  buildConfiguration: 'Release'
+  BuildConfiguration: 'Release'
 
 name: $(Year:yy)$(DayOfYear)$(Rev:rr)
 
@@ -33,7 +33,7 @@ steps:
   inputs:
     command: 'build'
     projects: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
-    configuration: '$(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: Pack Internal
@@ -41,8 +41,10 @@ steps:
     command: 'pack'
     packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
     nobuild: true
-    configuration: '$(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)'
     buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix=pre-$(Build.BuildNumber)'
+    packDirectory: '$(Build.ArtifactStagingDirectory)'
+    verbosityPack: Normal
 
 - task: DotNetCoreCLI@2
   displayName: Pack Release
@@ -50,8 +52,10 @@ steps:
     command: 'pack'
     packagesToPack: 'src/KK.AspNetCore.Images.Processing/KK.AspNetCore.Images.Processing.csproj'
     nobuild: true
-    configuration: '$(buildConfiguration)'
+    arguments: '--configuration $(buildConfiguration)'
     buildProperties: 'VersionPrefix=$(GitVersion.MajorMinorPatch);VersionSuffix='
+    packDirectory: '$(Build.ArtifactStagingDirectory)'
+    verbosityPack: Normal
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
