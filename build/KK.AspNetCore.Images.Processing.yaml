@@ -17,10 +17,10 @@ steps:
     workingDirectory: 'src/KK.AspNetCore.Images.Processing'
 
 - task: DotNetCoreInstaller@0
-  displayName: Use .NET Core sdk 2.1.400
+  displayName: Use .NET Core sdk 2.2.104
   inputs:
     packageType: 'sdk'
-    version: 2.1.400
+    version: 2.2.104
 
 - task: DotNetCoreCLI@2
   displayName: Restore
