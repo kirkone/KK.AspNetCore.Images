@@ -71,6 +71,15 @@ namespace KK.AspNetCore.Images.Processing
             }
         }
 
+        public class OutputFormat
+        {
+            public string[] FileEndings { get; set; }
+        }
+
+        public List<OutputFormat> OutputFormats { get; set; } = new List<OutputFormat>();
+
         public bool LosslessCompress = false;
+
+        
     }
 }

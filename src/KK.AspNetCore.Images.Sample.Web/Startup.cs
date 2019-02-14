@@ -42,7 +42,7 @@
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // Add options for ImageProcessing to the DI
             // user either custom settings:
