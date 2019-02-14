@@ -58,10 +58,20 @@
         public async Task Invoke(HttpContext context)
         {
             var path = context.Request.Path;
+            var extension = Path.GetExtension(path.Value);
 
             if (!GenericHelpers.IsGetOrHeadMethod(context.Request.Method))
             {
                 this.logger.LogRequestMethodNotSupported(context.Request.Method);
+            }
+            else if (!GenericHelpers.IsFileTypeSupported(
+                extension,
+                this.options.OutputFormats.SelectMany(
+                    x => x.FileEndings).ToArray()
+                )
+            )
+            {
+                this.logger.LogFileTypeNotSupported(extension);
             }
             else if (!GenericHelpers.TryMatchPath(path, this.options.TargetFolder))
             {
@@ -81,14 +91,38 @@
                 {
                     this.logger.LogProcessingImage(path.Value);
 
-                    var extension = Path.GetExtension(path.Value);
                     var size = Path.GetFileNameWithoutExtension(path.Value).ToLower();
                     var filename = Directory.GetParent(path.Value).Name;
 
-                    var imageSourcePath = Path.Combine(
-                        $"{this.env.ContentRootPath}{this.options.SourceFolder}",
-                        $"{filename}{extension}"
-                    );
+                    // var imageSourcePath = Path.Combine(
+                    //     $"{this.env.ContentRootPath}{this.options.SourceFolder}",
+                    //     $"{filename}{extension}"
+                    // );
+
+                    FileInfo sourceImageFile;
+                    var sourceImageFolder = new DirectoryInfo(Path.Combine(
+                        $"{this.env.ContentRootPath}{this.options.SourceFolder}"
+                    ));
+                    var sourceImageFiles = sourceImageFolder.GetFiles($"{filename}.*");
+
+                    if (sourceImageFiles == null || sourceImageFiles.Length == 0)
+                    {
+                        // Image source not found!
+                        // Hand over to the next middleware and return.
+                        this.logger.LogSourceImageNotFound($"{filename}.*");
+                        await this.next(context);
+                        return;
+                    }
+                    else
+                    {
+                        if (sourceImageFiles.Length > 1)
+                        {
+                            this.logger.LogWarning(
+                                $"Found multiple source images, take first one: {sourceImageFiles[0].Name}"
+                            );
+                        }
+                        sourceImageFile = sourceImageFiles[0];
+                    }
 
                     var targetDir = Path.Combine(
                         this.env.WebRootPath,
@@ -117,7 +151,7 @@
                         return;
                     }
 
-                    using (var image = new MagickImage(imageSourcePath))
+                    using (var image = new MagickImage(sourceImageFile))
                     {
                         image.Resize(sizeSetting.Width, sizeSetting.Height);
                         image.Strip();

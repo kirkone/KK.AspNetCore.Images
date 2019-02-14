@@ -9,6 +9,8 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
         private static Action<ILogger, string, Exception> logPathMismatch;
         private static Action<ILogger, string, Exception> logProcessingImage;
         private static Action<ILogger, string, Exception> logSizeNotSupported;
+        private static Action<ILogger, string, Exception> logSourceImageNotFound;
+        private static Action<ILogger, string, Exception> logFileTypeNotSupported;
 
         static LoggerExtensions()
         {
@@ -28,6 +30,14 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
                logLevel: LogLevel.Information,
                eventId: 4,
                formatString: "Size not supported: '{Size}'.");
+            logSourceImageNotFound = LoggerMessage.Define<string>(
+               logLevel: LogLevel.Information,
+               eventId: 5,
+               formatString: "Source image not found: '{Path}'.");
+            logFileTypeNotSupported = LoggerMessage.Define<string>(
+               logLevel: LogLevel.Information,
+               eventId: 6,
+               formatString: "File type not supported: '{Extension}'.");
         }
 
         public static void LogRequestMethodNotSupported(this ILogger logger, string method)
@@ -49,5 +59,14 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
         {
             logSizeNotSupported(logger, size, null);
         }
+        public static void LogSourceImageNotFound(this ILogger logger, string path)
+        {
+            logSourceImageNotFound(logger, path, null);
+        }
+        public static void LogFileTypeNotSupported(this ILogger logger, string extension)
+        {
+            logFileTypeNotSupported(logger, extension, null);
+        }
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿namespace KK.AspNetCore.Images.Processing.Internal.Helpers
 {
     using System;
+    using System.IO;
+    using System.Linq;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.FileProviders;
@@ -19,6 +21,11 @@
                 return true;
             }
             return false;
+        }
+
+        internal static bool IsFileTypeSupported(string extension, string[] supportetFileTypes)
+        {
+            return supportetFileTypes.Contains(extension.Trim('.'));
         }
     }
 }
