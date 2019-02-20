@@ -23,7 +23,7 @@
             return false;
         }
 
-        internal static bool IsFileTypeSupported(string extension, string[] supportetFileTypes)
+        internal static bool IsRequestFileTypeSupported(string extension, string[] supportetFileTypes)
         {
             return supportetFileTypes.Contains(extension.Trim('.'));
         }

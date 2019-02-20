@@ -10,7 +10,8 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
         private static Action<ILogger, string, Exception> logProcessingImage;
         private static Action<ILogger, string, Exception> logSizeNotSupported;
         private static Action<ILogger, string, Exception> logSourceImageNotFound;
-        private static Action<ILogger, string, Exception> logFileTypeNotSupported;
+        private static Action<ILogger, string, Exception> logRequestFileTypeNotSupported;
+        private static Action<ILogger, string, Exception> logSourceFileTypeNotSupported;
 
         static LoggerExtensions()
         {
@@ -34,10 +35,14 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
                logLevel: LogLevel.Information,
                eventId: 5,
                formatString: "Source image not found: '{Path}'.");
-            logFileTypeNotSupported = LoggerMessage.Define<string>(
+            logRequestFileTypeNotSupported = LoggerMessage.Define<string>(
                logLevel: LogLevel.Information,
                eventId: 6,
-               formatString: "File type not supported: '{Extension}'.");
+               formatString: "Requested file type not supported: '{Extension}'.");
+            logSourceFileTypeNotSupported = LoggerMessage.Define<string>(
+               logLevel: LogLevel.Information,
+               eventId: 6,
+               formatString: "Source file type not supported: '{Extension}'.");
         }
 
         public static void LogRequestMethodNotSupported(this ILogger logger, string method)
@@ -63,9 +68,13 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
         {
             logSourceImageNotFound(logger, path, null);
         }
-        public static void LogFileTypeNotSupported(this ILogger logger, string extension)
+        public static void LogRequestFileTypeNotSupported(this ILogger logger, string extension)
         {
-            logFileTypeNotSupported(logger, extension, null);
+            logRequestFileTypeNotSupported(logger, extension, null);
+        }
+        public static void LogSourceFileTypeNotSupported(this ILogger logger, string extension)
+        {
+            logSourceFileTypeNotSupported(logger, extension, null);
         }
 
     }
