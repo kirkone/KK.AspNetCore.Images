@@ -64,14 +64,14 @@
             {
                 this.logger.LogRequestMethodNotSupported(context.Request.Method);
             }
-            else if (!GenericHelpers.IsFileTypeSupported(
+            else if (!GenericHelpers.IsRequestFileTypeSupported(
                 extension,
                 this.options.OutputFormats.SelectMany(
                     x => x.FileEndings).ToArray()
                 )
             )
             {
-                this.logger.LogFileTypeNotSupported(extension);
+                this.logger.LogRequestFileTypeNotSupported(extension);
             }
             else if (!GenericHelpers.TryMatchPath(path, this.options.TargetFolder))
             {
@@ -151,50 +151,73 @@
                         return;
                     }
 
-                    using (var image = new MagickImage(sourceImageFile))
+                    var sourceImageFileExtension = sourceImageFile.Extension.Trim('.');
+                    var isSourceFileSupported = Enum.TryParse<MagickFormat>(sourceImageFileExtension, true, out var format);
+                    if (isSourceFileSupported)
                     {
-                        image.Resize(sizeSetting.Width, sizeSetting.Height);
-                        image.Strip();
-                        if (sizeSetting.Quality >= 0)
+                        using (var image = new MagickImage())
                         {
-                            this.logger.LogInformation($"Setting Quality to: \"{sizeSetting.Quality}\"");
-                            image.Quality = sizeSetting.Quality;
-                        }
-
-                        if (sizeSetting.Progressive)
-                        {
-                            image.Format = MagickFormat.Pjpeg;
-                        }
-
-                        using (var stream = new MemoryStream())
-                        {
-                            image.Write(stream);
-                            stream.Position = 0;
-
-                            this.logger.LogInformation($"LosslessCompress before: {stream.Length / 1024} kb");
-                            var imageOptimizer = new ImageOptimizer();
-                            if (options.LosslessCompress)
+                            try
                             {
-                                imageOptimizer.LosslessCompress(stream);
+                                image.Read(sourceImageFile);
                             }
-                            else
+                            // Something went wrong while loading the image with ImageMagick
+                            catch (MagickException exception)
                             {
-                                imageOptimizer.Compress(stream);
+                                this.logger.LogError($"Error while loading image: {exception}");
+                                await this.next(context);
+                                return;
                             }
-                            this.logger.LogInformation($"LosslessCompress after: {stream.Length / 1024} kb");
 
-                            using (
-                                FileStream file = new FileStream(
-                                    imagePath,
-                                    FileMode.Create,
-                                    System.IO.FileAccess.Write
+                            image.Resize(sizeSetting.Width, sizeSetting.Height);
+                            image.Strip();
+                            if (sizeSetting.Quality >= 0)
+                            {
+                                this.logger.LogInformation($"Setting Quality to: \"{sizeSetting.Quality}\"");
+                                image.Quality = sizeSetting.Quality;
+                            }
+
+                            if (sizeSetting.Progressive)
+                            {
+                                image.Format = MagickFormat.Pjpeg;
+                            }
+
+                            using (var stream = new MemoryStream())
+                            {
+                                image.Write(stream);
+                                stream.Position = 0;
+
+                                this.logger.LogInformation($"LosslessCompress before: {stream.Length / 1024} kb");
+                                var imageOptimizer = new ImageOptimizer();
+                                if (options.LosslessCompress)
+                                {
+                                    imageOptimizer.LosslessCompress(stream);
+                                }
+                                else
+                                {
+                                    imageOptimizer.Compress(stream);
+                                }
+                                this.logger.LogInformation($"LosslessCompress after: {stream.Length / 1024} kb");
+
+                                using (
+                                    FileStream file = new FileStream(
+                                        imagePath,
+                                        FileMode.Create,
+                                        System.IO.FileAccess.Write
+                                    )
                                 )
-                            )
-                            {
-                                stream.WriteTo(file);
-                                file.Flush();
+                                {
+                                    stream.WriteTo(file);
+                                    file.Flush();
+                                }
                             }
                         }
+                    }
+                    else
+                    {
+                        this.logger.LogSourceFileTypeNotSupported($"{sourceImageFileExtension}");
+                        await this.next(context);
+                        return;
                     }
                 }
             }
