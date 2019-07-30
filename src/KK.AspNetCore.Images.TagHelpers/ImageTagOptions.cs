@@ -5,7 +5,7 @@ namespace KK.AspNetCore.Images.TagHelpers
     using System.Linq;
     using System.Collections.Generic;
 
-    public class PictureTagOptions
+    public class ImageTagOptions
     {
         public class Setting
         {
@@ -13,8 +13,6 @@ namespace KK.AspNetCore.Images.TagHelpers
             {
                 public string Name { get; set; }
                 public int Width { get; set; }
-                public string Media { get; set; }
-                public List<int> Zoom { get; set; } = new List<int>();
             }
 
             public string Name { get; set; }

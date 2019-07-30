@@ -32,9 +32,8 @@
             var settings = new ImageProcessingOptions();
             new ConfigureFromConfigurationOptions<ImageProcessingOptions>(section)
                 .Configure(settings);
-            services.AddSingleton(settings);
 
-            return services;
+            return services.AddSingleton(settings);
         }
 
         /// <summary>
@@ -58,9 +57,7 @@
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            services.AddSingleton(settings);
-
-            return services;
+            return services.AddSingleton(settings);
         }
 
         /// <summary>
@@ -81,8 +78,7 @@
                 throw new ArgumentNullException(nameof(configureOptions));
             }
 
-            services.Configure(configureOptions);
-            return services;
+            return services.Configure(configureOptions);
         }
     }
 }

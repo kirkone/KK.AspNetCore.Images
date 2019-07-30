@@ -18,10 +18,10 @@ namespace KK.AspNetCore.Images.Processing
 
         public List<Size> Sizes { get; set; } = new List<Size>();
 
-        private string sourceFolder = System.IO.Path.DirectorySeparatorChar + "Images";
+        private readonly string sourceFolder = Path.DirectorySeparatorChar + "Images";
         public string SourceFolder
         {
-            get { return this.sourceFolder; }
+            get => this.sourceFolder;
             set
             {
                 var newValue = value.Replace(
@@ -49,7 +49,7 @@ namespace KK.AspNetCore.Images.Processing
         private string targetFolder = "/images/generated";
         public string TargetFolder
         {
-            get { return this.targetFolder; }
+            get => this.targetFolder;
             set
             {
                 var newValue = value.Replace('\\', '/');
@@ -77,9 +77,8 @@ namespace KK.AspNetCore.Images.Processing
         }
 
         public List<OutputFormat> OutputFormats { get; set; } = new List<OutputFormat>();
+        public bool LosslessCompress { get; set; } = false;
 
-        public bool LosslessCompress = false;
-
-        
+        public bool WriteMetaFiles { get; set; } = false;
     }
 }

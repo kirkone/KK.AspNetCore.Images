@@ -1,0 +1,21 @@
+@backgroundcolor: rgb(20, 20, 30);
+@backgroundcolor-trans: rgba(20, 20, 30, 0.8);
+@backgroundcolor-light: rgb(38, 38, 46);
+@backgroundcolor-lighter: rgb(53, 53, 59);
+
+@accentcolor: rgb(255, 255, 255);
+@accentcolor-light: rgb(235, 235, 255);
+
+@spacer-height: 60px;
+
+@nav-width: 200px;
+
+@duration-default: 0.3s;
+
+@box-shadow: 0 0 20px @backgroundcolor;
+
+.vendor(@property, @value) {
+    -webkit-@{property}: @value;
+    -ms-@{property}: @value;
+    @{property}: @value;
+}

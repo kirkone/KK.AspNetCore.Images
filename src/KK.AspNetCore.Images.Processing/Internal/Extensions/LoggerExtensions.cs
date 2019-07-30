@@ -5,77 +5,63 @@ namespace KK.AspNetCore.Images.Processing.Internal.Extensions
 
     internal static class LoggerExtensions
     {
-        private static Action<ILogger, string, Exception> logMethodNotSupported;
-        private static Action<ILogger, string, Exception> logPathMismatch;
-        private static Action<ILogger, string, Exception> logProcessingImage;
-        private static Action<ILogger, string, Exception> logSizeNotSupported;
-        private static Action<ILogger, string, Exception> logSourceImageNotFound;
-        private static Action<ILogger, string, Exception> logRequestFileTypeNotSupported;
-        private static Action<ILogger, string, Exception> logSourceFileTypeNotSupported;
+        private static readonly Action<ILogger, string, Exception> LogMethodNotSupportedAction;
+        private static readonly Action<ILogger, string, Exception> LogPathMismatchAction;
+        private static readonly Action<ILogger, string, Exception> LogProcessingImageAction;
+        private static readonly Action<ILogger, string, Exception> LogSizeNotSupportedAction;
+        private static readonly Action<ILogger, string, Exception> LogSourceImageNotFoundAction;
+        private static readonly Action<ILogger, string, Exception> LogRequestFileTypeNotSupportedAction;
+        private static readonly Action<ILogger, string, Exception> LogSourceFileTypeNotSupportedAction;
 
         static LoggerExtensions()
         {
-            logMethodNotSupported = LoggerMessage.Define<string>(
+            LogMethodNotSupportedAction = LoggerMessage.Define<string>(
                 logLevel: LogLevel.Debug,
                 eventId: 1,
                 formatString: "{Method} requests are not supported");
-            logPathMismatch = LoggerMessage.Define<string>(
+            LogPathMismatchAction = LoggerMessage.Define<string>(
                 logLevel: LogLevel.Debug,
                 eventId: 2,
                 formatString: "The request path {Path} does not match the path filter");
-            logProcessingImage = LoggerMessage.Define<string>(
+            LogProcessingImageAction = LoggerMessage.Define<string>(
                logLevel: LogLevel.Information,
                eventId: 3,
                formatString: "Processing Image. Image path: '{Path}'.");
-            logSizeNotSupported = LoggerMessage.Define<string>(
+            LogSizeNotSupportedAction = LoggerMessage.Define<string>(
                logLevel: LogLevel.Information,
                eventId: 4,
                formatString: "Size not supported: '{Size}'.");
-            logSourceImageNotFound = LoggerMessage.Define<string>(
+            LogSourceImageNotFoundAction = LoggerMessage.Define<string>(
                logLevel: LogLevel.Information,
                eventId: 5,
                formatString: "Source image not found: '{Path}'.");
-            logRequestFileTypeNotSupported = LoggerMessage.Define<string>(
+            LogRequestFileTypeNotSupportedAction = LoggerMessage.Define<string>(
                logLevel: LogLevel.Information,
                eventId: 6,
                formatString: "Requested file type not supported: '{Extension}'.");
-            logSourceFileTypeNotSupported = LoggerMessage.Define<string>(
+            LogSourceFileTypeNotSupportedAction = LoggerMessage.Define<string>(
                logLevel: LogLevel.Information,
                eventId: 6,
                formatString: "Source file type not supported: '{Extension}'.");
         }
 
         public static void LogRequestMethodNotSupported(this ILogger logger, string method)
-        {
-            logMethodNotSupported(logger, method, null);
-        }
+            => LogMethodNotSupportedAction(logger, method, null);
 
         public static void LogPathMismatch(this ILogger logger, string path)
-        {
-            logPathMismatch(logger, path, null);
-        }
+            => LogPathMismatchAction(logger, path, null);
 
         public static void LogProcessingImage(this ILogger logger, string path)
-        {
-            logProcessingImage(logger, path, null);
-        }
+            => LogProcessingImageAction(logger, path, null);
 
         public static void LogSizeNotSupported(this ILogger logger, string size)
-        {
-            logSizeNotSupported(logger, size, null);
-        }
+            => LogSizeNotSupportedAction(logger, size, null);
         public static void LogSourceImageNotFound(this ILogger logger, string path)
-        {
-            logSourceImageNotFound(logger, path, null);
-        }
+            => LogSourceImageNotFoundAction(logger, path, null);
         public static void LogRequestFileTypeNotSupported(this ILogger logger, string extension)
-        {
-            logRequestFileTypeNotSupported(logger, extension, null);
-        }
+            => LogRequestFileTypeNotSupportedAction(logger, extension, null);
         public static void LogSourceFileTypeNotSupported(this ILogger logger, string extension)
-        {
-            logSourceFileTypeNotSupported(logger, extension, null);
-        }
+            => LogSourceFileTypeNotSupportedAction(logger, extension, null);
 
     }
 }

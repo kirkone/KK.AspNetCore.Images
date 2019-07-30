@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/KK.AspNetCore.Images.Sample.Web/KK.AspNetCore.Images.Sample.Web.csproj"
+                "${workspaceFolder}/samples/KK.AspNetCore.Images.Samples.Web/KK.AspNetCore.Images.Samples.Web.csproj"
             ],
             "problemMatcher": "$msCompile",
             "group": {
@@ -30,7 +30,7 @@
                 "env": {
                     "ASPNETCORE_ENVIRONMENT": "Production"
                 },
-                "cwd": "${workspaceFolder}/src/KK.AspNetCore.Images.Sample.Web"
+                "cwd": "${workspaceFolder}/samples/KK.AspNetCore.Images.Samples.Web"
             },
             "problemMatcher": []
         },
@@ -38,9 +38,9 @@
             "label": "parcel watch",
             "type": "npm",
             "script": "parcel:watch",
-            "path": "src/KK.AspNetCore.Images.Sample.Web/ClientApp/",
+            "path": "samples/KK.AspNetCore.Images.Samples.Web/ClientApp/",
             "options": {
-                "cwd": "src/KK.AspNetCore.Images.Sample.Web/ClientApp/"
+                "cwd": "samples/KK.AspNetCore.Images.Samples.Web/ClientApp/"
             },
             "problemMatcher": []
         }

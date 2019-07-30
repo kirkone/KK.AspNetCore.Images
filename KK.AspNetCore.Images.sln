@@ -1,15 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29025.244
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6AA9F920-3241-499F-9C36-E411F492B81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KK.AspNetCore.Images.Processing", "src\KK.AspNetCore.Images.Processing\KK.AspNetCore.Images.Processing.csproj", "{07A4176E-61A9-44A0-9CC4-FD557801589B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KK.AspNetCore.Images.Processing", "src\KK.AspNetCore.Images.Processing\KK.AspNetCore.Images.Processing.csproj", "{07A4176E-61A9-44A0-9CC4-FD557801589B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KK.AspNetCore.Images.Sample.Web", "src\KK.AspNetCore.Images.Sample.Web\KK.AspNetCore.Images.Sample.Web.csproj", "{8701CED4-659A-459C-9A26-CC7ADD15196A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KK.AspNetCore.Images.Samples.Web", "samples\KK.AspNetCore.Images.Samples.Web\KK.AspNetCore.Images.Samples.Web.csproj", "{8701CED4-659A-459C-9A26-CC7ADD15196A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KK.AspNetCore.Images.TagHelpers", "src\KK.AspNetCore.Images.TagHelpers\KK.AspNetCore.Images.TagHelpers.csproj", "{F822DE13-0510-45D3-A355-CDC81EFD6818}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KK.AspNetCore.Images.TagHelpers", "src\KK.AspNetCore.Images.TagHelpers\KK.AspNetCore.Images.TagHelpers.csproj", "{F822DE13-0510-45D3-A355-CDC81EFD6818}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{4385370B-5942-40A9-BBA6-EEB5C2862C61}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{563BB5AD-3B75-4C17-A7EC-746F1780A05F}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{07A4176E-61A9-44A0-9CC4-FD557801589B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -61,9 +68,15 @@ Global
 		{F822DE13-0510-45D3-A355-CDC81EFD6818}.Release|x86.ActiveCfg = Release|Any CPU
 		{F822DE13-0510-45D3-A355-CDC81EFD6818}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{07A4176E-61A9-44A0-9CC4-FD557801589B} = {6AA9F920-3241-499F-9C36-E411F492B81E}
-		{8701CED4-659A-459C-9A26-CC7ADD15196A} = {6AA9F920-3241-499F-9C36-E411F492B81E}
+		{8701CED4-659A-459C-9A26-CC7ADD15196A} = {4385370B-5942-40A9-BBA6-EEB5C2862C61}
 		{F822DE13-0510-45D3-A355-CDC81EFD6818} = {6AA9F920-3241-499F-9C36-E411F492B81E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A1DBEEF6-9601-49BF-8350-0465923EA9EC}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,23 @@
+{
+  "name": "kk.aspnetcore.images.samples.web",
+  "version": "1.0.0",
+  "description": "A sample for the `KK.AspNetCore.Images` NuGet package.",
+  "main": "index.js",
+  "scripts": {
+    "parcel:serve": "parcel serve src/*.ts src/*.less --public-url /dist/ --out-dir ../wwwroot/dist --hmr-hostname localhost",
+    "parcel:watch": "parcel watch src/*.ts src/*.less --public-url /dist/ --out-dir ../wwwroot/dist --hmr-hostname localhost",
+    "parcel:build": "parcel build src/*.ts src/*.less --out-dir ../wwwroot/dist --no-source-maps"
+  },
+  "author": "Kirsten Kluge",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kirkone/KK.AspNetCore.Images.git"
+  },
+  "devDependencies": {
+    "less": "^3.9.0",
+    "parcel-bundler": "^1.12.3",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {}
+}

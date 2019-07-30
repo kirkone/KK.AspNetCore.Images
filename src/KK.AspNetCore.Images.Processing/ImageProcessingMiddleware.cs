@@ -25,29 +25,10 @@
             ILogger<ImageProcessingMiddleware> logger
         )
         {
-            if (next == null)
-            {
-                throw new ArgumentNullException(nameof(next));
-            }
-            if (env == null)
-            {
-                throw new ArgumentNullException(nameof(env));
-            }
-
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-
-            if (logger == null)
-            {
-                throw new ArgumentNullException(nameof(logger));
-            }
-
-            this.next = next;
-            this.options = options;
-            this.env = env;
-            this.logger = logger;
+            this.next = next ?? throw new ArgumentNullException(nameof(next));
+            this.options = options ?? throw new ArgumentNullException(nameof(options));
+            this.env = env ?? throw new ArgumentNullException(nameof(env));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -135,7 +116,7 @@
                     if (!Directory.Exists(targetDir))
                     {
                         this.logger.LogInformation($"Create Directory: \"{targetDir}\"");
-                        Directory.CreateDirectory(targetDir);
+                        _ = Directory.CreateDirectory(targetDir);
                     }
 
                     var sizeSetting = this.options.Sizes.FirstOrDefault(
@@ -189,18 +170,18 @@
 
                                 this.logger.LogInformation($"LosslessCompress before: {stream.Length / 1024} kb");
                                 var imageOptimizer = new ImageOptimizer();
-                                if (options.LosslessCompress)
+                                if (this.options.LosslessCompress)
                                 {
-                                    imageOptimizer.LosslessCompress(stream);
+                                    _ = imageOptimizer.LosslessCompress(stream);
                                 }
                                 else
                                 {
-                                    imageOptimizer.Compress(stream);
+                                    _ = imageOptimizer.Compress(stream);
                                 }
                                 this.logger.LogInformation($"LosslessCompress after: {stream.Length / 1024} kb");
 
                                 using (
-                                    FileStream file = new FileStream(
+                                    var file = new FileStream(
                                         imagePath,
                                         FileMode.Create,
                                         System.IO.FileAccess.Write
@@ -209,6 +190,26 @@
                                 {
                                     stream.WriteTo(file);
                                     file.Flush();
+                                }
+                            }
+
+                            if (this.options.WriteMetaFiles)
+                            {
+                                // Retrieve the exif information
+                                var profile = image.GetExifProfile();
+
+                                // Check if image contains an exif profile
+                                if (profile == null)
+                                {
+                                    this.logger.LogInformation($"Source image has no EXIF data.");
+                                }
+                                else
+                                {
+                                    // Write all values to the console
+                                    foreach (var value in profile.Values)
+                                    {
+                                        this.logger.LogInformation($"{value.Tag}({value.DataType}): {value.ToString()}");
+                                    }
                                 }
                             }
                         }

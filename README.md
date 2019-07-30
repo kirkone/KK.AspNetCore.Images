@@ -65,7 +65,7 @@ will become:
 </picture>
 ```
 
-## KK.AspNetCore.Images.Sample.Web
+## KK.AspNetCore.Images.Samples.Web
 
 This web site uses the two helpers above and shows how to use each of them.  
 The ThagHelper is used on the **Gallery** page.  

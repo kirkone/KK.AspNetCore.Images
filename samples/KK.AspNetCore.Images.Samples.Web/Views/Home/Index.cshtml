@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section navigation {
+    <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+    <label for="nav-trigger">
+        <i></i>
+        <i></i>
+        <i></i>
+    </label>
+
+    <aside id="nav">
+        <span id="searchbox">
+            <label for="search">search: </label>
+            <input id="search" type="search" placeholder="search">
+        </span>
+        <a href="./" class="active">stack</a>
+        <a href="http://">table</a>
+        <a href="http://">year</a>
+        <span class="devider"></span>
+        <a href="http://">gear</a>
+        <a href="http://">about</a>
+    </aside>
+}
+
+@foreach (var image in ViewBag.Images)
+{
+    <article id="@image.Name">
+        <div>
+            <div>
+                <a id="@image.Name" asp-route="ImageDetails" asp-route-image="@image.Name">
+                    <!-- <picture class="awesome_image" src="@image.Name" alt="@image.PhysicalPath" /> -->
+                    <image class="awesome_image" src="@image.Name" alt="@image.PhysicalPath"
+                        sizes="(max-height: 66.666vw) 150vh, 100vw" />
+                </a>
+            </div>
+        </div>
+    </article>
+}
+
+@section scripts {
+
+}
