@@ -3,9 +3,9 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Hosting;
     using KK.AspNetCore.Images.Processing;
     using KK.AspNetCore.Images.TagHelpers;
     using KK.AspNetCore.Images.Samples.Web.Services;
@@ -25,13 +25,13 @@
         {
             _ = services.Configure<CookiePolicyOptions>(options =>
               {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                  // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                  options.CheckConsentNeeded = context => true;
                   options.MinimumSameSitePolicy = SameSiteMode.None;
               });
 
 
-            _ = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            _ = services.AddControllersWithViews();
 
             // Add options for ImageProcessing to the DI
             // user either custom settings:
@@ -56,7 +56,7 @@
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(
             IApplicationBuilder app,
-            IHostingEnvironment env
+            IWebHostEnvironment env
             )
         {
             if (env.IsDevelopment())
@@ -70,7 +70,6 @@
                 .UseHttpsRedirection();
             }
 
-
             _ = app.UseImageProcessing();
 
             // Static files should be handled after ImageProcessing so the generated files will be there already.
@@ -78,11 +77,13 @@
 
             _ = app.UseCookiePolicy();
 
-            _ = app.UseMvc(routes =>
-                _ = routes.MapRoute(
-                      name: "default",
-                      template: "{controller=Home}/{action=Index}/{id?}")
-                );
+            _ = app.UseRouting();
+            _ = app.UseEndpoints(
+                endpoints => endpoints.MapControllerRoute(
+                    "default",
+                    "{controller=Home}/{action=Index}/{id?}"
+                )
+            );
         }
     }
 }

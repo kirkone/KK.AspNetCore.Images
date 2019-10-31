@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/samples/KK.AspNetCore.Images.Samples.Web/bin/Debug/netcoreapp2.2/KK.AspNetCore.Images.Samples.Web.dll",
+      "program": "${workspaceFolder}/samples/KK.AspNetCore.Images.Samples.Web/bin/Debug/netcoreapp3.0/KK.AspNetCore.Images.Samples.Web.dll",
       "args": [],
       "cwd": "${workspaceFolder}/samples/KK.AspNetCore.Images.Samples.Web",
       "stopAtEntry": false,

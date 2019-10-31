@@ -11,11 +11,7 @@
         public HomeController(IImagesService imagesService)
             => this.imagesService = imagesService;
 
-        public IActionResult Index()
-        {
-            this.ViewBag.Images = this.imagesService.Images;
-            return this.View();
-        }
+        public IActionResult Index() => this.View(this.imagesService.Images);
 
         [Route("/Details/{image}", Name = "ImageDetails")]
         public IActionResult Details(string image)

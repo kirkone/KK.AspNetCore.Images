@@ -1,13 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <ClientRoot>ClientApp\</ClientRoot>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\KK.AspNetCore.Images.Processing\KK.AspNetCore.Images.Processing.csproj" />
@@ -27,7 +23,7 @@
     </Exec>
     <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
     <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-    <Exec WorkingDirectory="" Command="npm install" />
+    <Exec WorkingDirectory="$(ClientRoot)" Command="npm install" />
   </Target>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">

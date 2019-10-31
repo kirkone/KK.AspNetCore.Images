@@ -41,7 +41,11 @@
             var path = context.Request.Path;
             var extension = Path.GetExtension(path.Value);
 
-            if (!GenericHelpers.IsGetOrHeadMethod(context.Request.Method))
+            if (!GenericHelpers.TryMatchPath(path, this.options.TargetFolder))
+            {
+                this.logger.LogPathMismatch(path);
+            }
+            else if (!GenericHelpers.IsGetOrHeadMethod(context.Request.Method))
             {
                 this.logger.LogRequestMethodNotSupported(context.Request.Method);
             }
@@ -53,10 +57,6 @@
             )
             {
                 this.logger.LogRequestFileTypeNotSupported(extension);
-            }
-            else if (!GenericHelpers.TryMatchPath(path, this.options.TargetFolder))
-            {
-                this.logger.LogPathMismatch(path);
             }
             else
             {

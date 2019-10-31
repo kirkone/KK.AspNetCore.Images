@@ -16,7 +16,7 @@ namespace KK.AspNetCore.Images.Samples.Web.Services
     public class ImagesService : IImagesService
     {
 
-        public ImagesService(IHostingEnvironment env)
+        public ImagesService(IWebHostEnvironment env)
         {
             // this.hostingEnvironment = env;
             this.fileProvider = env.ContentRootFileProvider;
