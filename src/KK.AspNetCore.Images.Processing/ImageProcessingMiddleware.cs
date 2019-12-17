@@ -1,4 +1,4 @@
-﻿namespace KK.AspNetCore.Images.Processing
+namespace KK.AspNetCore.Images.Processing
 {
     using System;
     using System.IO;
@@ -163,7 +163,17 @@
                             _ = Enum.TryParse<MagickFormat>(fileextension, true, out var outputFormat);
                             image.Format = outputFormat;
 
-                            var processor = this.imageProcessors.First(o => o.Format == outputFormat );
+                            var imageProcessor = this.imageProcessors.Where(o => o.Format == outputFormat).FirstOrDefault();
+                            if (imageProcessor == null)
+                            {
+                                this.logger.LogError($"No ImageProcessor found for: {outputFormat}");
+                                await this.next(context);
+                                return;
+                            }
+
+                            image.Process(imageProcessor);
+
+
                             if (sizeSetting.Progressive)
                             {
                                 image.Format = MagickFormat.Pjpeg;

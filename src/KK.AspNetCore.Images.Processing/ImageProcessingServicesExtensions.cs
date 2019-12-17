@@ -59,8 +59,10 @@
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            return services.AddSingleton<IImageProcessor, JpegProcessor>()
-                .AddSingleton<IImageProcessor, WebPProcessor>().AddSingleton(settings);
+            return services
+                .AddSingleton<IImageProcessor, JpegProcessor>()
+                .AddSingleton<IImageProcessor, WebPProcessor>()
+                .AddSingleton(settings);
         }
 
         /// <summary>

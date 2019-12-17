@@ -1,15 +1,16 @@
-﻿namespace KK.AspNetCore.Images.Samples.Web.Controllers
+namespace KK.AspNetCore.Images.Samples.Web.Controllers
 {
     using System.Diagnostics;
     using Microsoft.AspNetCore.Mvc;
     using KK.AspNetCore.Images.Samples.Web.Models;
     using KK.AspNetCore.Images.Samples.Web.Services;
+    using System;
 
     public class HomeController : Controller
     {
         private readonly IImagesService imagesService;
-        public HomeController(IImagesService imagesService)
-            => this.imagesService = imagesService;
+
+        public HomeController(IImagesService imagesService) => this.imagesService = imagesService;
 
         public IActionResult Index() => this.View(this.imagesService.Images);
 

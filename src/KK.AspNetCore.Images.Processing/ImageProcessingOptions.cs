@@ -74,6 +74,7 @@ namespace KK.AspNetCore.Images.Processing
         public class OutputFormat
         {
             public string[] FileEndings { get; set; }
+            public Dictionary<string, string> Options { get; set; } = new Dictionary<string, string>();
         }
 
         public List<OutputFormat> OutputFormats { get; set; } = new List<OutputFormat>();
