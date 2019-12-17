@@ -10,23 +10,28 @@
     using Microsoft.Extensions.Logging;
     using KK.AspNetCore.Images.Processing.Internal.Helpers;
     using KK.AspNetCore.Images.Processing.Internal.Extensions;
+    using System.Collections.Generic;
+    using KK.AspNetCore.Images.Processing.Internal.Processors;
 
     public class ImageProcessingMiddleware
     {
         private readonly RequestDelegate next;
         private readonly ImageProcessingOptions options;
+        private readonly IEnumerable<IImageProcessor> imageProcessors;
         private readonly ILogger<ImageProcessingMiddleware> logger;
         private readonly IHostingEnvironment env;
 
         public ImageProcessingMiddleware(
             RequestDelegate next,
             ImageProcessingOptions options,
+            IEnumerable<IImageProcessor> imageProcessors,
             IHostingEnvironment env,
             ILogger<ImageProcessingMiddleware> logger
         )
         {
             this.next = next ?? throw new ArgumentNullException(nameof(next));
             this.options = options ?? throw new ArgumentNullException(nameof(options));
+            this.imageProcessors = imageProcessors ?? throw new ArgumentNullException(nameof(imageProcessors));
             this.env = env ?? throw new ArgumentNullException(nameof(env));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
@@ -52,7 +57,8 @@
             else if (!GenericHelpers.IsRequestFileTypeSupported(
                 extension,
                 this.options.OutputFormats.SelectMany(
-                    x => x.FileEndings).ToArray()
+                        x => x.FileEndings
+                    ).ToArray()
                 )
             )
             {
@@ -74,11 +80,7 @@
 
                     var size = Path.GetFileNameWithoutExtension(path.Value).ToLower();
                     var filename = Directory.GetParent(path.Value).Name;
-
-                    // var imageSourcePath = Path.Combine(
-                    //     $"{this.env.ContentRootPath}{this.options.SourceFolder}",
-                    //     $"{filename}{extension}"
-                    // );
+                    var fileextension = Path.GetExtension(path.Value).ToLower().Trim('.');
 
                     FileInfo sourceImageFile;
                     var sourceImageFolder = new DirectoryInfo(Path.Combine(
@@ -158,10 +160,15 @@
                                 image.Quality = sizeSetting.Quality;
                             }
 
+                            _ = Enum.TryParse<MagickFormat>(fileextension, true, out var outputFormat);
+                            image.Format = outputFormat;
+
+                            var processor = this.imageProcessors.First(o => o.Format == outputFormat );
                             if (sizeSetting.Progressive)
                             {
                                 image.Format = MagickFormat.Pjpeg;
                             }
+                            this.logger.LogInformation($"Image Format: {image.Format}");
 
                             using (var stream = new MemoryStream())
                             {
@@ -184,7 +191,7 @@
                                     var file = new FileStream(
                                         imagePath,
                                         FileMode.Create,
-                                        System.IO.FileAccess.Write
+                                        FileAccess.Write
                                     )
                                 )
                                 {

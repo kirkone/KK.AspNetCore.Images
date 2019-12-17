@@ -1,6 +1,7 @@
 ﻿namespace KK.AspNetCore.Images.Processing
 {
     using System;
+    using KK.AspNetCore.Images.Processing.Internal.Processors;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
@@ -33,7 +34,8 @@
             new ConfigureFromConfigurationOptions<ImageProcessingOptions>(section)
                 .Configure(settings);
 
-            return services.AddSingleton(settings);
+            return services.AddSingleton<IImageProcessor, JpegProcessor>()
+                .AddSingleton<IImageProcessor, WebPProcessor>().AddSingleton(settings);
         }
 
         /// <summary>
@@ -57,7 +59,8 @@
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            return services.AddSingleton(settings);
+            return services.AddSingleton<IImageProcessor, JpegProcessor>()
+                .AddSingleton<IImageProcessor, WebPProcessor>().AddSingleton(settings);
         }
 
         /// <summary>
@@ -78,7 +81,10 @@
                 throw new ArgumentNullException(nameof(configureOptions));
             }
 
-            return services.Configure(configureOptions);
+            return services
+                .AddSingleton<IImageProcessor, JpegProcessor>()
+                .AddSingleton<IImageProcessor, WebPProcessor>()
+                .Configure(configureOptions);
         }
     }
 }

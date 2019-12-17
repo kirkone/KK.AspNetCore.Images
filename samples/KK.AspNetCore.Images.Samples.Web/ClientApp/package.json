@@ -17,9 +17,9 @@
   "devDependencies": {
     "less": "^3.10.3",
     "parcel-bundler": "^1.12.4",
-    "typescript": "^3.6.4"
+    "typescript": "^3.7.3"
   },
   "dependencies": {
-    "loading-attribute-polyfill": "1.2.0"
+    "loading-attribute-polyfill": "1.3.1"
   }
 }
